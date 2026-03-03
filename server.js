@@ -79,6 +79,11 @@ app.post("/signup", (req, res) => {
   res.redirect("/login");
 });
 
+// 404 catch-all (must be after all other routes)
+app.use((req, res) => {
+  res.status(404).render("404", { title: "Page Not Found - Raya" });
+});
+
 app.listen(PORT, "127.0.0.1", () => {
   console.log(`Server running on http://127.0.0.1:${PORT}`);
 });
