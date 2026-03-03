@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/header') %>
+</head>
+<body class="bg-ivory font-sans text-text-main antialiased min-h-screen flex flex-col">
+
+<main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="flex flex-col lg:flex-row gap-10">
+        <!-- Sidebar Filters -->
+        <aside class="w-full lg:w-72 flex-shrink-0 space-y-8">
+            <div>
+                <h1 class="text-3xl font-serif font-bold text-charcoal mb-2 tracking-tight">Find Your Match</h1>
+                <p class="text-text-muted text-sm font-light">3,240 potential partners found</p>
+            </div>
+            <div class="bg-white rounded-2xl p-6 shadow-soft border border-warm-border/30">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-lg font-serif font-bold text-charcoal">Filters</h2>
+                    <button class="text-[11px] font-sans font-medium text-gold hover:text-gold-light tracking-wide uppercase transition-colors duration-300">Reset All</button>
+                </div>
+                <!-- Age Range Filter -->
+                <div class="mb-8">
+                    <div class="flex justify-between items-center mb-3">
+                        <label class="text-sm font-sans font-medium text-charcoal">Age Range</label>
+                        <span class="text-xs font-sans font-medium text-gold bg-blush px-2.5 py-1 rounded-full">24 - 32</span>
+                    </div>
+                    <div class="relative h-1.5 w-full bg-warm-border/50 rounded-full mt-2">
+                        <div class="absolute left-[20%] right-[30%] top-0 bottom-0 bg-gold rounded-full"></div>
+                        <div class="absolute left-[20%] top-1/2 -translate-y-1/2 w-3.5 h-3.5 bg-white border-2 border-gold rounded-full cursor-pointer shadow-sm"></div>
+                        <div class="absolute right-[30%] top-1/2 -translate-y-1/2 w-3.5 h-3.5 bg-white border-2 border-gold rounded-full cursor-pointer shadow-sm"></div>
+                    </div>
+                </div>
+                <!-- Location Filter -->
+                <div class="mb-8">
+                    <label class="block text-sm font-sans font-medium text-charcoal mb-3">Location</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-text-muted/60 text-[18px]">location_on</span>
+                        <input class="w-full pl-7 pr-4 py-2.5 bg-transparent border-0 border-b border-warm-border focus:ring-0 focus:border-gold text-sm transition-colors duration-300 text-charcoal placeholder:text-text-muted/40" placeholder="City or Region" type="text"/>
+                    </div>
+                    <div class="mt-3 flex flex-wrap gap-2">
+                        <button class="text-xs font-sans font-light bg-blush/60 hover:bg-blush text-charcoal/70 hover:text-gold px-3 py-1.5 rounded-full transition-all duration-300 border border-transparent hover:border-gold/20">New York</button>
+                        <button class="text-xs font-sans font-light bg-blush/60 hover:bg-blush text-charcoal/70 hover:text-gold px-3 py-1.5 rounded-full transition-all duration-300 border border-transparent hover:border-gold/20">London</button>
+                        <button class="text-xs font-sans font-light bg-blush/60 hover:bg-blush text-charcoal/70 hover:text-gold px-3 py-1.5 rounded-full transition-all duration-300 border border-transparent hover:border-gold/20">Remote</button>
+                    </div>
+                </div>
+                <!-- Profession Filter -->
+                <div class="mb-8">
+                    <label class="block text-sm font-sans font-medium text-charcoal mb-3">Profession</label>
+                    <div class="space-y-3">
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" checked class="rounded border-warm-border text-gold focus:ring-gold/30">
+                            <span class="text-sm text-text-muted font-light group-hover:text-charcoal transition-colors duration-300">Tech & Engineering</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" class="rounded border-warm-border text-gold focus:ring-gold/30">
+                            <span class="text-sm text-text-muted font-light group-hover:text-charcoal transition-colors duration-300">Healthcare</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" class="rounded border-warm-border text-gold focus:ring-gold/30">
+                            <span class="text-sm text-text-muted font-light group-hover:text-charcoal transition-colors duration-300">Creative Arts</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" class="rounded border-warm-border text-gold focus:ring-gold/30">
+                            <span class="text-sm text-text-muted font-light group-hover:text-charcoal transition-colors duration-300">Finance & Business</span>
+                        </label>
+                    </div>
+                </div>
+                <button class="w-full bg-gold hover:bg-gold-light text-white font-sans font-medium py-3 rounded-full transition-all duration-300 shadow-gold flex items-center justify-center gap-2 text-sm tracking-wide">
+                    <span>Apply Filters</span>
+                    <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </button>
+            </div>
+        </aside>
+        <!-- Main Grid -->
+        <div class="flex-1">
+            <!-- Sorting & View Options -->
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-text-muted font-light">Sort by:</span>
+                    <select class="bg-transparent text-sm font-sans font-medium text-charcoal focus:outline-none cursor-pointer border-0 focus:ring-0">
+                        <option>Relevance</option>
+                        <option>Newest Members</option>
+                        <option>Highest Compatibility</option>
+                    </select>
+                </div>
+                <div class="flex items-center bg-white rounded-full p-1 border border-warm-border/30 shadow-soft">
+                    <button class="p-1.5 rounded-full bg-blush text-charcoal">
+                        <span class="material-symbols-outlined text-[18px]">grid_view</span>
+                    </button>
+                    <button class="p-1.5 rounded-full text-text-muted hover:text-charcoal hover:bg-blush/50 transition-all duration-300">
+                        <span class="material-symbols-outlined text-[18px]">view_list</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
+                <% for(let i=1; i<=6; i++) { %>
+                <a href="/profile/1" class="group relative bg-white rounded-2xl overflow-hidden border border-warm-border/30 shadow-soft hover:shadow-soft-lg transition-all duration-500">
+                    <div class="relative aspect-[4/5] overflow-hidden">
+                        <img alt="Profile" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://picsum.photos/seed/<%= i+10 %>/400/500"/>
+                        <div class="absolute inset-0 bg-gradient-to-t from-charcoal/50 via-transparent to-transparent opacity-50"></div>
+                        <!-- Compatibility Badge -->
+                        <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-soft">
+                            <span class="material-symbols-outlined text-gold text-[14px]">auto_awesome</span>
+                            <span class="text-xs font-sans font-medium text-charcoal"><%= 80 + i %>%</span>
+                        </div>
+                        <!-- Overlay Info -->
+                        <div class="absolute bottom-0 left-0 right-0 p-5 translate-y-1 group-hover:translate-y-0 transition-transform duration-500">
+                            <h3 class="text-xl font-serif font-bold text-white mb-0.5">
+                                <%= ['Sarah', 'James', 'Maya', 'David', 'Elena', 'Rohan'][i-1] %>, <%= 24 + i %>
+                            </h3>
+                            <p class="text-white/75 text-sm font-sans font-light mb-3">
+                                <%= ['Designer', 'Engineer', 'Architect', 'Consultant', 'Lead', 'Founder'][i-1] %> · <%= ['NY', 'Seattle', 'SF', 'Chicago', 'Austin', 'Bangalore'][i-1] %>
+                            </p>
+                            <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-75">
+                                <span class="flex-1 bg-white text-charcoal py-2.5 rounded-full text-sm font-sans font-medium text-center tracking-wide">View Profile</span>
+                                <button class="w-10 flex items-center justify-center bg-gold text-white rounded-full hover:bg-gold-light transition-colors duration-300">
+                                    <span class="material-symbols-outlined text-[18px]">favorite</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <% } %>
+            </div>
+            <!-- Pagination -->
+            <div class="mt-12 flex justify-center">
+                <button class="px-8 py-3 rounded-full border border-warm-border text-sm font-sans font-medium text-charcoal hover:border-gold hover:text-gold transition-all duration-300 flex items-center gap-2">
+                    <span>Load More Profiles</span>
+                    <span class="material-symbols-outlined text-[16px]">expand_more</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('partials/footer') %>
+
+</body>
+</html>
