@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/header') %>
+</head>
+<body class="bg-ivory font-sans text-text-main antialiased min-h-screen flex flex-col">
+
+<main class="flex-1">
+    <!-- Hero Section -->
+    <section class="relative pt-24 pb-36 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="max-w-2xl">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold/30 text-gold text-xs font-sans font-medium tracking-wide mb-8">
+                        <span class="material-symbols-outlined text-[14px]">auto_awesome</span>
+                        INTELLIGENT MATCHMAKING
+                    </div>
+                    <h1 class="text-5xl lg:text-7xl font-serif font-bold text-charcoal leading-[1.1] mb-8 tracking-tight">
+                        Find a partner who <span class="text-gold italic">matches your soul</span>
+                    </h1>
+                    <p class="text-lg text-text-muted mb-12 leading-relaxed font-light">
+                        Modern matchmaking for the ambitious, creative, and mindful generation. Algorithm-driven connections based on values, not just biodata.
+                    </p>
+                    <div class="flex flex-wrap gap-4 mb-14">
+                        <a href="/discover" class="bg-gold text-white px-9 py-3.5 rounded-full text-sm font-sans font-medium tracking-wide shadow-gold hover:shadow-lg transition-all duration-300">Begin Your Journey</a>
+                        <a href="#" class="border border-warm-border text-charcoal px-9 py-3.5 rounded-full text-sm font-sans font-medium tracking-wide hover:border-gold hover:text-gold transition-all duration-300">Browse Stories</a>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="flex -space-x-2.5">
+                            <img src="https://picsum.photos/seed/1/40/40" class="w-9 h-9 rounded-full border-2 border-ivory ring-2 ring-gold/20" alt="User">
+                            <img src="https://picsum.photos/seed/2/40/40" class="w-9 h-9 rounded-full border-2 border-ivory ring-2 ring-gold/20" alt="User">
+                            <img src="https://picsum.photos/seed/3/40/40" class="w-9 h-9 rounded-full border-2 border-ivory ring-2 ring-gold/20" alt="User">
+                            <div class="w-9 h-9 rounded-full bg-blush flex items-center justify-center text-[10px] font-medium text-gold border-2 border-ivory">+2k</div>
+                        </div>
+                        <p class="text-xs text-text-muted font-medium tracking-wide">Joined this week</p>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="relative rounded-[1.5rem] overflow-hidden shadow-soft-lg">
+                        <img src="https://picsum.photos/seed/couple/800/600" class="w-full aspect-[4/3] object-cover" alt="Happy Couple">
+                        <div class="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-md p-6 rounded-xl shadow-soft border border-warm-border/30">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-[10px] font-sans font-medium text-text-muted uppercase tracking-[0.15em]">Match Score</span>
+                                <span class="material-symbols-outlined text-gold text-lg">auto_awesome</span>
+                            </div>
+                            <div class="text-2xl font-serif font-bold text-charcoal">98% Compatible</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Matches -->
+    <section class="py-28 bg-blush/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-end justify-between mb-14">
+                <div>
+                    <h2 class="text-4xl font-serif font-bold text-charcoal mb-3 tracking-tight">Featured Matches</h2>
+                    <p class="text-text-muted font-light">Curated profiles based on your values and vision.</p>
+                </div>
+                <a href="/discover" class="text-gold font-sans font-medium text-sm flex items-center gap-2 hover:gap-3 transition-all duration-300 tracking-wide">
+                    View All <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                </a>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Profile Card 1 -->
+                <div class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-soft-lg transition-all duration-500 border border-warm-border/30">
+                    <div class="relative aspect-[3/4]">
+                        <img src="https://picsum.photos/seed/anya/400/533" class="w-full h-full object-cover" alt="Anya">
+                        <button class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/50 transition-colors duration-300">
+                            <span class="material-symbols-outlined text-[20px]">favorite</span>
+                        </button>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-1">
+                            <h3 class="text-lg font-serif font-bold text-charcoal">Anya, 26</h3>
+                            <span class="text-[10px] font-sans font-medium text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full">Online</span>
+                        </div>
+                        <p class="text-xs text-text-muted mb-4 font-light">UX Designer · Mumbai</p>
+                        <p class="text-sm text-charcoal/70 italic leading-relaxed line-clamp-2 font-serif">"Looking for a travel buddy to explore hidden gems."</p>
+                    </div>
+                </div>
+                <!-- Profile Card 2 -->
+                <div class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-soft-lg transition-all duration-500 border border-warm-border/30">
+                    <div class="relative aspect-[3/4]">
+                        <img src="https://picsum.photos/seed/rohan/400/533" class="w-full h-full object-cover" alt="Rohan">
+                        <button class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/50 transition-colors duration-300">
+                            <span class="material-symbols-outlined text-[20px]">favorite</span>
+                        </button>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-1">
+                            <h3 class="text-lg font-serif font-bold text-charcoal">Rohan, 29</h3>
+                        </div>
+                        <p class="text-xs text-text-muted mb-4 font-light">Founder · Bangalore</p>
+                        <p class="text-sm text-charcoal/70 italic leading-relaxed line-clamp-2 font-serif">"Coffee, Code & weekend cricket enthusiast."</p>
+                    </div>
+                </div>
+                <!-- Profile Card 3 -->
+                <div class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-soft-lg transition-all duration-500 border border-warm-border/30">
+                    <div class="relative aspect-[3/4]">
+                        <img src="https://picsum.photos/seed/meera/400/533" class="w-full h-full object-cover" alt="Meera">
+                        <button class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/50 transition-colors duration-300">
+                            <span class="material-symbols-outlined text-[20px]">favorite</span>
+                        </button>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-1">
+                            <h3 class="text-lg font-serif font-bold text-charcoal">Meera, 27</h3>
+                        </div>
+                        <p class="text-xs text-text-muted mb-4 font-light">Architect · Delhi</p>
+                        <p class="text-sm text-charcoal/70 italic leading-relaxed line-clamp-2 font-serif">"Art gallery hopper & indie music lover."</p>
+                    </div>
+                </div>
+                <!-- Profile Card 4 -->
+                <div class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-soft-lg transition-all duration-500 border border-warm-border/30">
+                    <div class="relative aspect-[3/4]">
+                        <img src="https://picsum.photos/seed/kabir/400/533" class="w-full h-full object-cover" alt="Kabir">
+                        <button class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/50 transition-colors duration-300">
+                            <span class="material-symbols-outlined text-[20px]">favorite</span>
+                        </button>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-1">
+                            <h3 class="text-lg font-serif font-bold text-charcoal">Kabir, 30</h3>
+                        </div>
+                        <p class="text-xs text-text-muted mb-4 font-light">Chef · Goa</p>
+                        <p class="text-sm text-charcoal/70 italic leading-relaxed line-clamp-2 font-serif">"Sustainable living advocate & foodie."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Journey Section -->
+    <section class="py-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl lg:text-5xl font-serif font-bold text-charcoal mb-5 tracking-tight">Your journey to companionship</h2>
+            <p class="text-text-muted max-w-2xl mx-auto mb-6 font-light leading-relaxed">We've simplified the process of finding your soulmate into three meaningful steps focused on quality over quantity.</p>
+            <!-- Ornamental Divider -->
+            <div class="flex items-center justify-center gap-4 mb-20">
+                <div class="h-px w-12 bg-warm-border"></div>
+                <span class="material-symbols-outlined text-gold/50 text-sm">diamond</span>
+                <div class="h-px w-12 bg-warm-border"></div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-16">
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-full border border-gold/30 text-gold flex items-center justify-center mb-8">
+                        <span class="material-symbols-outlined text-3xl">psychology</span>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold text-charcoal mb-4">Mindset Analysis</h3>
+                    <p class="text-sm text-text-muted font-light leading-relaxed">Complete our in-depth personality assessment to help us understand your core values and vision.</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-full border border-gold/30 text-gold flex items-center justify-center mb-8">
+                        <span class="material-symbols-outlined text-3xl">groups</span>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold text-charcoal mb-4">Curated Connections</h3>
+                    <p class="text-sm text-text-muted font-light leading-relaxed">Receive 5 highly compatible matches every week, handpicked by our AI and verified by experts.</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 rounded-full border border-gold/30 text-gold flex items-center justify-center mb-8">
+                        <span class="material-symbols-outlined text-3xl">chat</span>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold text-charcoal mb-4">Meaningful Conversations</h3>
+                    <p class="text-sm text-text-muted font-light leading-relaxed">Use our guided icebreakers to start conversations that matter and move beyond small talk.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 px-4">
+        <div class="max-w-5xl mx-auto bg-charcoal rounded-[2rem] p-12 lg:p-20 text-center text-white relative overflow-hidden">
+            <div class="relative z-10">
+                <h2 class="text-4xl lg:text-6xl font-serif font-bold mb-8 tracking-tight">Ready to find your equal?</h2>
+                <p class="text-lg text-white/60 mb-12 max-w-2xl mx-auto font-light leading-relaxed">Join thousands of verified professionals who are writing their own love stories on Raya.</p>
+                <a href="/signup" class="inline-block bg-gold text-white px-10 py-4 rounded-full font-sans font-medium text-sm tracking-wide hover:bg-gold-light transition-colors duration-300 shadow-gold">Get Started Free</a>
+                <p class="mt-8 text-xs text-white/40 tracking-wide">No credit card required for basic profile setup.</p>
+            </div>
+            <!-- Subtle Background Decoration -->
+            <div class="absolute -top-24 -right-24 w-64 h-64 bg-gold/5 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-gold/5 rounded-full blur-3xl"></div>
+        </div>
+    </section>
+</main>
+
+<%- include('partials/footer') %>
+
+</body>
+</html>

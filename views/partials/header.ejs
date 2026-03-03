@@ -1,0 +1,71 @@
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,100..200,0&display=swap" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ivory: "#FAF7F2",
+                        charcoal: "#1C1C1E",
+                        gold: "#B8976A",
+                        "gold-light": "#D4BA8E",
+                        blush: "#F5EBE0",
+                        "warm-gray": "#E8E2D9",
+                        "warm-border": "#E5DED4",
+                        "text-main": "#1C1C1E",
+                        "text-muted": "#8A8680",
+                        "surface": "#FFFFFF",
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', "Georgia", "serif"],
+                        sans: ['"DM Sans"', "system-ui", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.75rem",
+                        lg: "1rem",
+                        xl: "1.25rem",
+                        "2xl": "1.25rem",
+                        "3xl": "1.5rem",
+                    },
+                    boxShadow: {
+                        soft: "0 4px 24px rgba(0,0,0,0.06)",
+                        "soft-lg": "0 8px 40px rgba(0,0,0,0.08)",
+                        gold: "0 4px 20px rgba(184,151,106,0.15)",
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body { font-family: 'DM Sans', system-ui, sans-serif; }
+        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Playfair Display', Georgia, serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'opsz' 24, 'wght' 200, 'FILL' 0;
+        }
+        ::selection { background: rgba(184,151,106,0.18); color: #1C1C1E; }
+    </style>
+
+    <header class="sticky top-0 z-50 w-full bg-ivory/90 backdrop-blur-md border-b border-warm-border/50">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex h-[72px] items-center justify-between">
+                <a href="/" class="flex items-center gap-2.5">
+                    <span class="material-symbols-outlined text-gold text-2xl">favorite</span>
+                    <span class="text-xl font-serif font-bold text-charcoal tracking-wide">Raya</span>
+                </a>
+                <nav class="hidden md:flex items-center gap-10">
+                    <a href="/discover" class="text-[13px] font-sans font-medium text-text-muted hover:text-gold tracking-[0.08em] uppercase transition-colors duration-300">Discover</a>
+                    <a href="#" class="text-[13px] font-sans font-medium text-text-muted hover:text-gold tracking-[0.08em] uppercase transition-colors duration-300">Pricing</a>
+                </nav>
+                <div class="flex items-center gap-5">
+                    <a href="/login" class="text-[13px] font-sans font-medium text-charcoal hover:text-gold tracking-wide transition-colors duration-300">Login</a>
+                    <a href="/signup" class="border border-gold/70 text-gold px-6 py-2 rounded-full text-[13px] font-sans font-medium tracking-wide hover:bg-gold hover:text-white transition-all duration-300">Join Now</a>
+                </div>
+            </div>
+        </div>
+    </header>
