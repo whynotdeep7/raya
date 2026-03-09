@@ -63,9 +63,47 @@
                     <a href="#" class="text-[13px] font-sans font-medium text-text-muted hover:text-gold tracking-[0.08em] uppercase transition-colors duration-300">Pricing</a>
                 </nav>
                 <div class="flex items-center gap-5">
-                    <a href="/login" class="text-[13px] font-sans font-medium text-charcoal hover:text-gold tracking-wide transition-colors duration-300">Login</a>
-                    <a href="/signup" class="border border-gold/70 text-gold px-6 py-2 rounded-full text-[13px] font-sans font-medium tracking-wide hover:bg-gold hover:text-white transition-all duration-300">Join Now</a>
+                    <!-- Logged OUT buttons (visible by default) -->
+                    <div id="auth-logged-out" class="flex items-center gap-5">
+                        <a href="/login" class="text-[13px] font-sans font-medium text-charcoal hover:text-gold tracking-wide transition-colors duration-300">Login</a>
+                        <a href="/signup" class="border border-gold/70 text-gold px-6 py-2 rounded-full text-[13px] font-sans font-medium tracking-wide hover:bg-gold hover:text-white transition-all duration-300">Join Now</a>
+                    </div>
+                    <!-- Logged IN buttons (hidden by default) -->
+                    <div id="auth-logged-in" class="hidden items-center gap-5">
+                        <span id="welcome-text" class="text-[13px] font-sans font-medium text-gold tracking-wide"></span>
+                        <a href="/profile" id="profile-link" class="flex items-center gap-1.5 border border-gold/70 text-gold px-5 py-2 rounded-full text-[13px] font-sans font-medium tracking-wide hover:bg-gold hover:text-white transition-all duration-300">
+                            <span class="material-symbols-outlined text-[16px]">account_circle</span>
+                            <span id="profile-name"></span>
+                        </a>
+                        <button onclick="logout()" class="text-[13px] font-sans font-medium text-text-muted hover:text-gold tracking-wide transition-colors duration-300 bg-transparent border-none cursor-pointer">Logout</button>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
+
+    <script>
+        (function() {
+            var loggedIn = localStorage.getItem('loggedIn');
+            var email = localStorage.getItem('userEmail');
+            if (loggedIn === 'true' && email) {
+                document.getElementById('auth-logged-out').style.display = 'none';
+                document.getElementById('auth-logged-in').style.display = 'flex';
+                // Fetch user name from server using email
+                fetch('/api/user?email=' + encodeURIComponent(email))
+                    .then(function(r) { return r.json(); })
+                    .then(function(user) {
+                        if (user && user.firstName) {
+                            document.getElementById('welcome-text').textContent = 'Welcome, ' + user.firstName + '!';
+                            document.getElementById('profile-name').textContent = user.firstName;
+                        }
+                    });
+            }
+        })();
+
+        function logout() {
+            localStorage.removeItem('loggedIn');
+            localStorage.removeItem('userEmail');
+            window.location.href = '/';
+        }
+    </script>
