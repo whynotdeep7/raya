@@ -25,6 +25,7 @@ const getUsers=()=>{
 }
 
 //helper function to save signup details to json file(DB)
+
 const saveusers=(users)=>{
     fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
 }

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("partials/header") %>
+</head>
+<body class="bg-ivory text-text-main font-sans min-h-screen flex flex-col">
+
+    <main class="flex-1 flex items-center justify-center px-4 py-20">
+        <div class="text-center max-w-lg">
+
+            <!-- Large 404 number -->
+            <h1 class="text-[120px] sm:text-[160px] font-serif font-bold text-gold/20 leading-none select-none">404</h1>
+
+            <!-- Ornamental divider -->
+            <div class="flex items-center justify-center gap-3 -mt-6 mb-8">
+                <span class="block w-12 h-px bg-gold/40"></span>
+                <span class="material-symbols-outlined text-gold text-xl">favorite</span>
+                <span class="block w-12 h-px bg-gold/40"></span>
+            </div>
+
+            <!-- Message -->
+            <h2 class="font-serif font-bold text-3xl sm:text-4xl text-charcoal mb-4">Page Not Found</h2>
+            <p class="text-text-muted text-base leading-relaxed mb-10 max-w-sm mx-auto">
+                The page you're looking for doesn't exist or has been moved. Let's get you back on track.
+            </p>
+
+            <!-- Action buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="/"
+                   class="inline-flex items-center gap-2 bg-gold text-white px-8 py-3 rounded-full text-sm font-medium tracking-wide hover:bg-gold-light transition-all duration-300 shadow-gold">
+                    <span class="material-symbols-outlined text-lg">home</span>
+                    Back to Home
+                </a>
+                <a href="/discover"
+                   class="inline-flex items-center gap-2 border border-gold/60 text-gold px-8 py-3 rounded-full text-sm font-medium tracking-wide hover:bg-gold hover:text-white transition-all duration-300">
+                    <span class="material-symbols-outlined text-lg">search</span>
+                    Discover Matches
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <%- include("partials/footer") %>
+</body>
+</html>
