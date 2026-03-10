@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/header') %>
+</head>
+<body class="bg-ivory font-sans text-text-main antialiased min-h-screen flex flex-col">
+
+<main class="flex-1 flex items-center justify-center p-4 py-24">
+    <div class="w-full max-w-md bg-white rounded-2xl p-10 shadow-soft border border-warm-border/30">
+        <div class="text-center mb-10">
+            <div class="w-14 h-14 border border-gold/30 text-gold rounded-full flex items-center justify-center mx-auto mb-6">
+                <span class="material-symbols-outlined text-2xl">mail</span>
+            </div>
+            <h2 class="text-3xl font-serif font-bold text-charcoal mb-2 tracking-tight">Contact Us</h2>
+            <p class="text-text-muted text-sm font-light">We'd love to hear from you. Send us a message!</p>
+        </div>
+
+        <!-- Ornamental Divider -->
+        <div class="flex items-center justify-center gap-3 mb-8">
+            <div class="h-px w-10 bg-warm-border"></div>
+            <span class="material-symbols-outlined text-gold/40 text-[12px]">diamond</span>
+            <div class="h-px w-10 bg-warm-border"></div>
+        </div>
+
+        <% if (success) { %>
+            <div class="bg-emerald-50/60 text-emerald-700 p-4 rounded-xl text-sm font-medium border border-emerald-100/60 mb-6 text-center">
+                <span class="material-symbols-outlined text-[18px] align-middle mr-1">check_circle</span>
+                Thank you! Your message has been sent successfully.
+            </div>
+        <% } %>
+
+        <form class="space-y-6" action="/contact" method="POST">
+            <div>
+                <label class="block text-[11px] font-sans font-medium text-text-muted uppercase tracking-[0.15em] mb-2">Your Name</label>
+                <input type="text" name="name" required placeholder="John Doe" class="w-full px-0 py-3 bg-transparent border-0 border-b border-warm-border focus:ring-0 focus:border-gold text-charcoal transition-colors duration-300 outline-none placeholder:text-text-muted/40 text-sm">
+            </div>
+            <div>
+                <label class="block text-[11px] font-sans font-medium text-text-muted uppercase tracking-[0.15em] mb-2">Email Address</label>
+                <input type="email" name="email" required placeholder="name@example.com" class="w-full px-0 py-3 bg-transparent border-0 border-b border-warm-border focus:ring-0 focus:border-gold text-charcoal transition-colors duration-300 outline-none placeholder:text-text-muted/40 text-sm">
+            </div>
+            <div>
+                <label class="block text-[11px] font-sans font-medium text-text-muted uppercase tracking-[0.15em] mb-2">Message</label>
+                <textarea name="message" rows="4" required placeholder="Write your message here..." class="w-full px-0 py-3 bg-transparent border-0 border-b border-warm-border focus:ring-0 focus:border-gold text-charcoal transition-colors duration-300 outline-none placeholder:text-text-muted/40 text-sm resize-none"></textarea>
+            </div>
+
+            <button type="submit" class="w-full bg-gold text-white py-3.5 rounded-full font-sans font-medium text-sm tracking-wide shadow-gold hover:bg-gold-light transition-all duration-300">
+                Send Message
+            </button>
+        </form>
+
+        <div class="mt-10 pt-8 border-t border-warm-border/50 text-center">
+            <p class="text-sm text-text-muted font-light">We'll get back to you within 24 hours.</p>
+        </div>
+    </div>
+</main>
+
+<%- include('partials/footer') %>
+
+</body>
+</html>

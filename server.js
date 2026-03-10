@@ -6,6 +6,7 @@ import fs from "fs";
 const app=express();
 const PORT=3000;
 const USERS_FILE=path.resolve("users.json");
+const CONTACTUS_FILE=path.resolve("contactus.json");
 
 app.set("view engine","ejs");
 app.use(express.static("public"));
@@ -104,6 +105,38 @@ app.post("/signup", (req, res) => {
     users.push(newUser);
     saveUsers(users);
     res.redirect("/login");
+});
+
+// Contact Us helpers
+const getMessages = () => {
+    try {
+        const data = fs.readFileSync(CONTACTUS_FILE, "utf8");
+        return JSON.parse(data);
+    } catch {
+        return [];
+    }
+};
+
+const saveMessages = (messages) => {
+    fs.writeFileSync(CONTACTUS_FILE, JSON.stringify(messages, null, 2));
+};
+
+app.get("/contact", (req, res) => {
+    res.render("contact", { title: "Contact Us - Raya", success: false });
+});
+
+app.post("/contact", (req, res) => {
+    const { name, email, message } = req.body;
+    const messages = getMessages();
+    messages.push({
+        id: Date.now(),
+        name,
+        email,
+        message,
+        date: new Date().toISOString(),
+    });
+    saveMessages(messages);
+    res.render("contact", { title: "Contact Us - Raya", success: true });
 });
 
 app.use((req, res) => {
