@@ -3,107 +3,93 @@
     <title><%= title %></title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,100..200,0&display=swap" />
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        ivory: "#FAF7F2",
-                        charcoal: "#1C1C1E",
-                        gold: "#B8976A",
-                        "gold-light": "#D4BA8E",
-                        blush: "#F5EBE0",
-                        "warm-gray": "#E8E2D9",
-                        "warm-border": "#E5DED4",
-                        "text-main": "#1C1C1E",
-                        "text-muted": "#8A8680",
-                        "surface": "#FFFFFF",
-                    },
-                    fontFamily: {
-                        serif: ['"Playfair Display"', "Georgia", "serif"],
-                        sans: ['"DM Sans"', "system-ui", "sans-serif"],
-                    },
-                    borderRadius: {
-                        DEFAULT: "0.75rem",
-                        lg: "1rem",
-                        xl: "1.25rem",
-                        "2xl": "1.25rem",
-                        "3xl": "1.5rem",
-                    },
-                    boxShadow: {
-                        soft: "0 4px 24px rgba(0,0,0,0.06)",
-                        "soft-lg": "0 8px 40px rgba(0,0,0,0.08)",
-                        gold: "0 4px 20px rgba(184,151,106,0.15)",
-                    },
-                },
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              ivory:  '#FAF7F2',
+              charcoal: '#1A1A1C',
+              gold:   '#B8976A',
+              'gold-light': '#D4BA8E',
+              'gold-dark':  '#9B7D56',
+              blush:  '#F5EBE0',
+              'warm-border': '#E5DED4',
+              'text-muted':  '#8A8680',
             },
-        }
+            fontFamily: {
+              serif: ['"Playfair Display"', 'Georgia', 'serif'],
+              sans:  ['"DM Sans"', 'system-ui', 'sans-serif'],
+            },
+            boxShadow: {
+              soft:    '0 2px 20px rgba(0,0,0,0.06)',
+              'soft-lg': '0 8px 40px rgba(0,0,0,0.10)',
+              gold:    '0 4px 20px rgba(184,151,106,0.20)',
+            },
+          },
+        },
+      }
     </script>
-    <style>
-        body { font-family: 'DM Sans', system-ui, sans-serif; }
-        h1, h2, h3, h4, h5, h6, .font-serif { font-family: 'Playfair Display', Georgia, serif; }
-        .material-symbols-outlined {
-            font-variation-settings: 'opsz' 24, 'wght' 200, 'FILL' 0;
-        }
-        ::selection { background: rgba(184,151,106,0.18); color: #1C1C1E; }
-    </style>
+    <link rel="stylesheet" href="/css/style.css">
 
-    <header class="sticky top-0 z-50 w-full bg-ivory/90 backdrop-blur-md border-b border-warm-border/50">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="flex h-[72px] items-center justify-between">
-                <a href="/" class="flex items-center gap-2.5">
-                    <span class="material-symbols-outlined text-gold text-2xl">favorite</span>
-                    <span class="text-xl font-serif font-bold text-charcoal tracking-wide">Raya</span>
-                </a>
-                <nav class="hidden md:flex items-center gap-10">
-                    <a href="/discover" class="text-[13px] font-sans font-medium text-text-muted hover:text-gold tracking-[0.08em] uppercase transition-colors duration-300">Discover</a>
-                    <a href="#" class="text-[13px] font-sans font-medium text-text-muted hover:text-gold tracking-[0.08em] uppercase transition-colors duration-300">Pricing</a>
-                </nav>
-                <div class="flex items-center gap-5">
-                    <!-- Logged OUT buttons (visible by default) -->
-                    <div id="auth-logged-out" class="flex items-center gap-5">
-                        <a href="/login" class="text-[13px] font-sans font-medium text-charcoal hover:text-gold tracking-wide transition-colors duration-300">Login</a>
-                        <a href="/signup" class="border border-gold/70 text-gold px-6 py-2 rounded-full text-[13px] font-sans font-medium tracking-wide hover:bg-gold hover:text-white transition-all duration-300">Join Now</a>
-                    </div>
-                    <!-- Logged IN buttons (hidden by default) -->
-                    <div id="auth-logged-in" class="hidden items-center gap-5">
-                        <span id="welcome-text" class="text-[13px] font-sans font-medium text-gold tracking-wide"></span>
-                        <a href="/profile" id="profile-link" class="flex items-center gap-1.5 border border-gold/70 text-gold px-5 py-2 rounded-full text-[13px] font-sans font-medium tracking-wide hover:bg-gold hover:text-white transition-all duration-300">
-                            <span class="material-symbols-outlined text-[16px]">account_circle</span>
-                            <span id="profile-name"></span>
-                        </a>
-                        <button onclick="logout()" class="text-[13px] font-sans font-medium text-text-muted hover:text-gold tracking-wide transition-colors duration-300 bg-transparent border-none cursor-pointer">Logout</button>
-                    </div>
-                </div>
-            </div>
+    <header class="sticky top-0 z-50 w-full bg-ivory/95 backdrop-blur-md border-b border-warm-border/60">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between gap-6">
+
+          <!-- Logo -->
+          <a href="/" class="flex items-center gap-2.5 shrink-0">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 24.5C14 24.5 3.5 18.083 3.5 10.5C3.5 7.462 5.962 5 9 5C11.025 5 12.796 6.089 14 7.7C15.204 6.089 16.975 5 19 5C22.038 5 24.5 7.462 24.5 10.5C24.5 18.083 14 24.5 14 24.5Z" fill="#B8976A" fill-opacity="0.2" stroke="#B8976A" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+            <span class="text-xl font-serif font-bold text-charcoal tracking-wide">Raya</span>
+          </a>
+
+          <!-- Nav -->
+          <nav class="hidden md:flex items-center gap-8">
+            <a href="/discover" class="text-[13px] font-sans font-medium text-text-muted hover:text-charcoal tracking-wide transition-colors duration-200">Discover</a>
+            <% if (currentUser) { %>
+
+              <a href="/profile"  class="text-[13px] font-sans font-medium text-text-muted hover:text-charcoal tracking-wide transition-colors duration-200">Profile</a>
+            <% } %>
+            <a href="/contact"  class="text-[13px] font-sans font-medium text-text-muted hover:text-charcoal tracking-wide transition-colors duration-200">Contact</a>
+          </nav>
+
+          <!-- Auth -->
+          <div class="flex items-center gap-3">
+            <% if (currentUser) { %>
+              <!-- Logged in -->
+              <a href="/profile" class="flex items-center gap-2.5 group">
+                <%
+                  const headerInitial = (currentUser.firstName || currentUser.email || 'U').trim().charAt(0).toUpperCase();
+                  const headerPhoto = currentUser.profilePic;
+                %>
+                <% if (headerPhoto) { %>
+                  <img src="<%= headerPhoto.startsWith('http') ? headerPhoto : '/uploads/' + headerPhoto.split(/[\\/]/).pop() %>"
+                    alt="<%= currentUser.firstName || currentUser.email %>"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                    class="w-9 h-9 rounded-full object-cover border-2 border-gold/30 group-hover:border-gold transition-colors duration-200">
+                  <div class="w-9 h-9 rounded-full bg-blush border-2 border-gold/30 flex items-center justify-center group-hover:border-gold transition-colors duration-200" style="display:none;">
+                    <span class="text-gold font-serif font-bold text-sm"><%= headerInitial %></span>
+                  </div>
+                <% } else { %>
+                  <div class="w-9 h-9 rounded-full bg-blush border-2 border-gold/30 flex items-center justify-center group-hover:border-gold transition-colors duration-200">
+                    <span class="text-gold font-serif font-bold text-sm"><%= headerInitial %></span>
+                  </div>
+                <% } %>
+                <span class="text-[13px] font-medium text-charcoal hidden sm:block"><%= currentUser.firstName %></span>
+              </a>
+              <form action="/logout" method="POST" style="margin:0">
+                <button type="submit" class="text-[13px] text-text-muted hover:text-charcoal transition-colors duration-200 font-medium">Sign out</button>
+              </form>
+            <% } else { %>
+              <!-- Logged out -->
+              <a href="/login"  class="text-[13px] font-medium text-charcoal hover:text-gold transition-colors duration-200">Sign in</a>
+              <a href="/signup" class="bg-charcoal text-white px-5 py-2 rounded-full text-[13px] font-medium hover:bg-gold transition-colors duration-200">Join Raya</a>
+            <% } %>
+          </div>
+
         </div>
+      </div>
     </header>
-
-    <script>
-        (function() {
-            var loggedIn = localStorage.getItem('loggedIn');
-            var email = localStorage.getItem('userEmail');
-            if (loggedIn === 'true' && email) {
-                document.getElementById('auth-logged-out').style.display = 'none';
-                document.getElementById('auth-logged-in').style.display = 'flex';
-                // Fetch user name from server using email
-                fetch('/api/user?email=' + encodeURIComponent(email))
-                    .then(function(r) { return r.json(); })
-                    .then(function(user) {
-                        if (user && user.firstName) {
-                            document.getElementById('welcome-text').textContent = 'Welcome, ' + user.firstName + '!';
-                            document.getElementById('profile-name').textContent = user.firstName;
-                        }
-                    });
-            }
-        })();
-
-        function logout() {
-            localStorage.removeItem('loggedIn');
-            localStorage.removeItem('userEmail');
-            window.location.href = '/';
-        }
-    </script>

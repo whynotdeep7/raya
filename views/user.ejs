@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('partials/header') %></head>
+<body class="bg-ivory min-h-screen flex flex-col">
+
+<main class="flex-1 max-w-3xl mx-auto px-4 sm:px-6 py-10 w-full">
+
+  <!-- Back -->
+  <a href="/discover" class="inline-flex items-center gap-2 text-sm text-text-muted hover:text-charcoal transition-colors mb-6" style="text-decoration:none;">
+    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+    Back to Discover
+  </a>
+
+  <!-- Profile card -->
+  <div class="bg-white rounded-2xl border border-warm-border/50 shadow-soft overflow-hidden mb-5">
+    <div class="h-32 bg-gradient-to-r from-blush via-warm-border/40 to-blush"></div>
+    <div class="px-6 pb-6">
+      <div class="flex items-end gap-5 -mt-16 mb-4">
+        <% if (profileUser.profilePic && !profileUser.profilePic.startsWith('http')) { %>
+          <img src="/uploads/<%= profileUser.profilePic %>" alt="" class="profile-avatar-lg ring-4 ring-white" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div style="display:none;" class="profile-avatar-lg-placeholder ring-4 ring-white"><%= profileUser.firstName.charAt(0) %></div>
+        <% } else if (profileUser.profilePic) { %>
+          <img src="<%= profileUser.profilePic %>" alt="" class="profile-avatar-lg ring-4 ring-white" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div style="display:none;" class="profile-avatar-lg-placeholder ring-4 ring-white"><%= profileUser.firstName.charAt(0) %></div>
+        <% } else { %>
+          <div class="profile-avatar-lg-placeholder ring-4 ring-white"><%= profileUser.firstName.charAt(0) %></div>
+        <% } %>
+        <div class="flex-1 mb-2 min-w-0">
+          <h1 class="text-2xl font-serif font-bold text-charcoal">
+            <%= profileUser.firstName %> <%= profileUser.lastName %>
+            <% if (profileUser.age) { %><span class="text-text-muted font-sans font-normal text-base">, <%= profileUser.age %></span><% } %>
+          </h1>
+          <p class="text-sm text-text-muted mt-0.5">
+            <%= [profileUser.profession, profileUser.location].filter(Boolean).join(' · ') || 'Raya member' %>
+          </p>
+        </div>
+        <!-- Action buttons -->
+        <div class="flex gap-2 shrink-0 mb-2" id="actionBtns">
+          <% if (relationshipStatus === 'friend') { %>
+            <span class="btn-add-friend friend" style="pointer-events:none">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              Connected
+            </span>
+          <% } else if (relationshipStatus === 'pending') { %>
+            <span class="btn-add-friend pending" style="pointer-events:none">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Request sent
+            </span>
+          <% } else { %>
+            <button id="connectBtn" onclick="sendRequest()" class="btn-add-friend">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+              Connect
+            </button>
+          <% } %>
+        </div>
+      </div>
+
+      <% if (profileUser.bio) { %>
+        <p class="text-sm text-text-muted leading-relaxed mb-4"><%= profileUser.bio %></p>
+      <% } %>
+
+      <% if (profileUser.interests && profileUser.interests.length > 0) { %>
+        <div class="flex flex-wrap gap-2">
+          <% profileUser.interests.forEach(i => { %>
+            <span class="px-3 py-1 rounded-full bg-blush text-xs font-medium text-charcoal/70 border border-warm-border/50"><%= i %></span>
+          <% }) %>
+        </div>
+      <% } %>
+    </div>
+  </div>
+
+  <!-- Info grid -->
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
+    <% if (profileUser.age) { %>
+    <div class="bg-white rounded-xl border border-warm-border/50 p-4 text-center">
+      <p class="text-[10px] uppercase tracking-widest text-text-muted font-semibold mb-1">Age</p>
+      <p class="text-lg font-serif font-bold text-charcoal"><%= profileUser.age %></p>
+    </div>
+    <% } %>
+    <% if (profileUser.gender) { %>
+    <div class="bg-white rounded-xl border border-warm-border/50 p-4 text-center">
+      <p class="text-[10px] uppercase tracking-widest text-text-muted font-semibold mb-1">Gender</p>
+      <p class="text-sm font-medium text-charcoal"><%= profileUser.gender %></p>
+    </div>
+    <% } %>
+    <% if (profileUser.location) { %>
+    <div class="bg-white rounded-xl border border-warm-border/50 p-4 text-center">
+      <p class="text-[10px] uppercase tracking-widest text-text-muted font-semibold mb-1">Location</p>
+      <p class="text-sm font-medium text-charcoal"><%= profileUser.location %></p>
+    </div>
+    <% } %>
+    <div class="bg-white rounded-xl border border-warm-border/50 p-4 text-center">
+      <p class="text-[10px] uppercase tracking-widest text-text-muted font-semibold mb-1">Friends</p>
+      <% if (typeof isOwner !== 'undefined' && isOwner) { %>
+        <p class="text-lg font-serif font-bold text-charcoal"><%= profileUser.friends.length %></p>
+      <% } else { %>
+        <p class="text-sm text-text-muted">Private</p>
+      <% } %>
+    </div>
+  </div>
+
+  <!-- Mutual friends -->
+  <% if (typeof isOwner !== 'undefined' && isOwner && profileUser.friends && profileUser.friends.length > 0) { %>
+  <div class="bg-white rounded-2xl border border-warm-border/50 p-5 shadow-soft">
+    <h2 class="font-serif font-bold text-charcoal mb-4">Connections (<%= profileUser.friends.length %>)</h2>
+    <div class="flex flex-wrap gap-3">
+      <% profileUser.friends.slice(0, 8).forEach(f => { %>
+        <a href="/user/<%= f._id %>" class="flex flex-col items-center gap-1.5 group" style="text-decoration:none;">
+          <% if (f.profilePic && !f.profilePic.startsWith('http')) { %>
+            <img src="/uploads/<%= f.profilePic %>" class="w-12 h-12 rounded-full object-cover group-hover:ring-2 group-hover:ring-gold transition-all" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div style="display:none;" class="w-12 h-12 rounded-full bg-blush flex items-center justify-center font-serif font-bold text-gold group-hover:ring-2 group-hover:ring-gold transition-all"><%= f.firstName.charAt(0) %></div>
+          <% } else if (f.profilePic) { %>
+            <img src="<%= f.profilePic %>" class="w-12 h-12 rounded-full object-cover group-hover:ring-2 group-hover:ring-gold transition-all" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div style="display:none;" class="w-12 h-12 rounded-full bg-blush flex items-center justify-center font-serif font-bold text-gold group-hover:ring-2 group-hover:ring-gold transition-all"><%= f.firstName.charAt(0) %></div>
+          <% } else { %>
+            <div class="w-12 h-12 rounded-full bg-blush flex items-center justify-center font-serif font-bold text-gold group-hover:ring-2 group-hover:ring-gold transition-all"><%= f.firstName.charAt(0) %></div>
+          <% } %>
+          <span class="text-[11px] text-text-muted group-hover:text-charcoal transition-colors text-center leading-tight max-w-[50px] truncate"><%= f.firstName %></span>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+  <% } %>
+
+</main>
+
+<div id="toast"></div>
+<%- include('partials/footer') %>
+
+<script>
+const targetId = '<%= profileUser._id %>';
+async function sendRequest() {
+  const btn = document.getElementById('connectBtn');
+  if (!btn) return;
+  btn.disabled = true;
+  btn.innerHTML = 'Sending...';
+  const res = await fetch('/api/friends/request', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ toId: targetId }),
+  });
+  const data = await res.json();
+  if (res.ok) {
+    btn.outerHTML = `<span class="btn-add-friend pending" style="pointer-events:none">
+      <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      Request sent
+    </span>`;
+    showToast('Friend request sent!');
+  } else {
+    showToast(data.error || 'Error sending request');
+    btn.disabled = false;
+    btn.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg> Connect';
+  }
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>

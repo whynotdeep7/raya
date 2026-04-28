@@ -1,148 +1,85 @@
-import express from "express";
-import path from "path";
-import fs from "fs";
-//will use bcrypt later for hashing passwords
+import 'dotenv/config';
+import express from 'express';
 
-const app=express();
-const PORT=3000;
-const USERS_FILE=path.resolve("users.json");
-const CONTACTUS_FILE=path.resolve("contactus.json");
+import mongoose from 'mongoose';
+import User from './models/User.js';
+import passport from 'passport';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import cookieParser from 'cookie-parser';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-app.set("view engine","ejs");
-app.use(express.static("public"));
+import { uploadsDir } from './config/upload.js';
+import authRoutes from './routes/auth.js';
+import notFoundRoutes from './routes/notFound.js';
+import pageRoutes from './routes/pages.js';
+import userRoutes from './routes/users.js';
 
-//middleware
-app.use(express.urlencoded({extended:true}));
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-//helper function to get all users from json file(DB)
-const getUsers=()=>{
-    try{
-        const data=fs.readFileSync(USERS_FILE,"utf8");
-        return JSON.parse(data);
+const getGoogleProfilePhoto = (profile) => profile?.photos?.[0]?.value || profile?._json?.picture || '';
+
+const app = express();
+
+
+// ── MongoDB ────────────────────────────────────────────────────────────────
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch(err => { console.error('❌ MongoDB error:', err); process.exit(1); });
+
+// ── Passport Google OAuth ──────────────────────────────────────────────────
+passport.use(new GoogleStrategy({
+  clientID:     process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL:  '/auth/google/callback',
+}, async (accessToken, refreshToken, profile, done) => {
+  try {
+    const googlePhoto = getGoogleProfilePhoto(profile);
+    let user = await User.findOne({ googleId: profile.id });
+    if (!user) {
+      // Check if email already exists (manual signup + google link)
+      user = await User.findOne({ email: profile.emails[0].value.toLowerCase() });
+      if (user) {
+        user.googleId = profile.id;
+        if (!user.profilePic) user.profilePic = googlePhoto;
+        await user.save();
+      } else {
+        user = await User.create({
+          googleId:   profile.id,
+          email:      profile.emails[0].value.toLowerCase(),
+          firstName:  profile.name?.givenName || '',
+          lastName:   profile.name?.familyName || '',
+          profilePic: googlePhoto,
+        });
+      }
+    } else if (!user.profilePic) {
+      user.profilePic = googlePhoto;
+      await user.save();
     }
-    catch{
-        return [];
-    }
-}
+    done(null, user);
+  } catch (err) {
+    done(err);
+  }
+}));
 
-//helper function to save signup details to json file(DB)
+// ── Core Middleware ────────────────────────────────────────────────────────
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static(uploadsDir));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cookieParser());
+app.use(passport.initialize());
 
-const saveUsers=(users)=>{
-    fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
-}
+// ── Routes ────────────────────────────────────────────────────────────────
+app.use('/', authRoutes);
+app.use('/', pageRoutes);
+app.use('/', userRoutes);
+app.use('/', notFoundRoutes);
 
-//routes
-app.get("/", (req, res) => {
-    res.render("index", { title: "Raya : Find your match" });
-});
-
-app.get("/discover", (req, res) => {
-    res.render("discover", { title: "Discover Matches - Raya" });
-});
-
-app.get("/profile", (req, res) => {
-    res.render("profile", { title: "My Profile - Raya" });
-});
-
-app.get("/login", (req, res) => {
-    res.render("login", { title: "Login - Raya", error: null });
-});
-
-app.post("/login", (req, res) => {
-    const { email, password } = req.body;
-    const users = getUsers();
-    const user = users.find((u) => u.email === email && u.password === password);
-
-    if (user) {
-        res.send(`
-            <script>
-                localStorage.setItem('loggedIn', 'true');
-                localStorage.setItem('userEmail', '${user.email}');
-                window.location.href = '/';
-            </script>
-        `);
-    } else {
-        res.render("login", { title: "Login - Raya", error: "Invalid email or password" });
-    }
-});
-
-// API to get user details from users.json by email
-app.get("/api/user", (req, res) => {
-    const email = req.query.email;
-    if (!email) return res.json({ error: "No email provided" });
-    const users = getUsers();
-    const user = users.find((u) => u.email === email);
-    if (!user) return res.json({ error: "User not found" });
-    // Return everything except password
-    const { password, ...safeUser } = user;
-    res.json(safeUser);
-});
-
-app.get("/signup", (req, res) => {
-    res.render("signup", { title: "Sign Up - Raya", error: null });
-});
-
-app.post("/signup", (req, res) => {
-    const { firstName, lastName, email, password, age, gender, location, bio } = req.body;
-    const users = getUsers();
-
-    if (users.find((u) => u.email === email)) {
-        return res.render("signup", { title: "Sign Up - Raya", error: "User already exists" });
-    }
-
-    const newUser = {
-        id: Date.now(),
-        firstName,
-        lastName,
-        email,
-        password,
-        age: age || "",
-        gender: gender || "",
-        location: location || "",
-        bio: bio || "",
-    };
-
-    users.push(newUser);
-    saveUsers(users);
-    res.redirect("/login");
-});
-
-// Contact Us helpers
-const getMessages = () => {
-    try {
-        const data = fs.readFileSync(CONTACTUS_FILE, "utf8");
-        return JSON.parse(data);
-    } catch {
-        return [];
-    }
-};
-
-const saveMessages = (messages) => {
-    fs.writeFileSync(CONTACTUS_FILE, JSON.stringify(messages, null, 2));
-};
-
-app.get("/contact", (req, res) => {
-    res.render("contact", { title: "Contact Us - Raya", success: false });
-});
-
-app.post("/contact", (req, res) => {
-    const { name, email, message } = req.body;
-    const messages = getMessages();
-    messages.push({
-        id: Date.now(),
-        name,
-        email,
-        message,
-        date: new Date().toISOString(),
-    });
-    saveMessages(messages);
-    res.render("contact", { title: "Contact Us - Raya", success: true });
-});
-
-app.use((req, res) => {
-    res.status(404).render("404", { title: "Page Not Found - Raya" });
-});
-
-app.listen(PORT, "127.0.0.1", () => {
-    console.log(`Server running on http://127.0.0.1:${PORT}`);
+// ── Start ──────────────────────────────────────────────────────────────────
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });

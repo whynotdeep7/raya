@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><%- include('partials/header') %></head>
+<body class="bg-ivory min-h-screen flex flex-col">
+
+<main class="flex-1 flex items-center justify-center px-4 py-14">
+  <div class="bg-white rounded-2xl border border-warm-border/50 shadow-soft w-full max-w-lg p-8">
+
+    <!-- Header -->
+    <div class="mb-7">
+      <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold mb-3">Step 2 of 2</p>
+      <!-- Step bar -->
+      <div class="flex items-center gap-2 mb-5">
+        <div class="flex-1 h-1 rounded-full bg-charcoal"></div>
+        <div class="flex-1 h-1 rounded-full bg-charcoal"></div>
+      </div>
+      <h1 class="text-2xl font-serif font-bold text-charcoal">Tell us about yourself</h1>
+      <p class="text-text-muted text-sm mt-1">This helps us find you the right matches. You can update this anytime.</p>
+    </div>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="bg-red-50 text-red-600 px-4 py-3 rounded-xl text-sm mb-5 border border-red-100"><%= error %></div>
+    <% } %>
+
+    <form action="/onboarding" method="POST" enctype="multipart/form-data" class="space-y-5">
+
+      <!-- Profile picture -->
+      <div class="flex items-center gap-5">
+        <label for="picInput" class="pic-upload-zone" id="picZone" title="Upload your photo">
+          <img id="picPreview" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%;">
+          <div id="picPlaceholder" class="flex flex-col items-center justify-center h-full gap-1 text-gold">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+          <div class="pic-upload-overlay">
+            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+          </div>
+        </label>
+        <input type="file" id="picInput" name="profilePic" accept="image/jpeg,image/png,image/webp,image/gif" class="hidden">
+        <div>
+          <p class="text-sm font-medium text-charcoal">Profile photo</p>
+          <p class="text-xs text-text-muted mt-0.5">JPG, PNG or GIF. Max 5MB.</p>
+          <p class="text-xs text-gold mt-1 cursor-pointer" onclick="document.getElementById('picInput').click()">Upload photo</p>
+        </div>
+      </div>
+
+      <!-- Name -->
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="raya-label">First name <span class="text-red-400">*</span></label>
+          <input type="text" name="firstName" required placeholder="Jane" class="raya-input">
+        </div>
+        <div>
+          <label class="raya-label">Last name <span class="text-red-400">*</span></label>
+          <input type="text" name="lastName" required placeholder="Doe" class="raya-input">
+        </div>
+      </div>
+
+      <!-- Age / Gender -->
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="raya-label">Age</label>
+          <input type="number" name="age" min="18" max="100" placeholder="25" class="raya-input">
+        </div>
+        <div>
+          <label class="raya-label">Gender</label>
+          <select name="gender" class="raya-input" style="cursor:pointer">
+            <option value="">Prefer not to say</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Location / Profession -->
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="raya-label">City / Location</label>
+          <input type="text" name="location" placeholder="Mumbai, India" class="raya-input">
+        </div>
+        <div>
+          <label class="raya-label">Profession</label>
+          <input type="text" name="profession" placeholder="UX Designer..." class="raya-input">
+        </div>
+      </div>
+
+      <!-- Bio -->
+      <div>
+        <label class="raya-label">About you</label>
+        <textarea name="bio" rows="3" placeholder="What are you passionate about? What makes you, you?" class="raya-input" style="resize:none;padding-top:9px"></textarea>
+      </div>
+
+      <!-- Interests -->
+      <div>
+        <label class="raya-label">Interests <span class="normal-case font-normal text-text-muted">(comma-separated)</span></label>
+        <input type="text" name="interests" placeholder="travel, hiking, cooking, photography..." class="raya-input">
+      </div>
+
+      <div class="pt-1 flex gap-3">
+        <button type="submit" class="btn-primary flex-1">Complete my profile</button>
+        <a href="/" class="flex-none px-5 py-3 rounded-full border border-warm-border text-sm text-text-muted hover:border-gold hover:text-gold transition-colors text-center" style="text-decoration:none;">Skip for now</a>
+      </div>
+    </form>
+  </div>
+</main>
+
+<script>
+  const picInput = document.getElementById('picInput');
+  const picPreview = document.getElementById('picPreview');
+  const picPlaceholder = document.getElementById('picPlaceholder');
+  picInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    picPreview.src = URL.createObjectURL(file);
+    picPreview.style.display = 'block';
+    picPlaceholder.style.display = 'none';
+  });
+</script>
+
+<%- include('partials/footer') %>
+</body>
+</html>

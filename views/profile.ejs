@@ -1,87 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <%- include('partials/header') %>
-</head>
-<body class="bg-ivory font-sans text-text-main antialiased min-h-screen flex flex-col">
+<head><%- include('partials/header') %></head>
+<body class="bg-ivory min-h-screen flex flex-col">
 
-<main class="flex-1 flex items-center justify-center p-4 py-24">
-    <div class="w-full max-w-2xl bg-white rounded-2xl p-10 shadow-soft border border-warm-border/30">
-        <div class="text-center mb-10">
-            <div class="w-20 h-20 border border-gold/30 text-gold rounded-full flex items-center justify-center mx-auto mb-6 bg-blush/40">
-                <span class="material-symbols-outlined text-4xl">person</span>
-            </div>
-            <h2 id="profile-fullname" class="text-3xl font-serif font-bold text-charcoal mb-2 tracking-tight"></h2>
-            <p id="profile-email" class="text-text-muted text-sm font-light"></p>
-        </div>
+<main class="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
 
-        <!-- Ornamental Divider -->
-        <div class="flex items-center justify-center gap-3 mb-8">
-            <div class="h-px w-10 bg-warm-border"></div>
-            <span class="material-symbols-outlined text-gold/40 text-[12px]">diamond</span>
-            <div class="h-px w-10 bg-warm-border"></div>
+  <!-- Profile header -->
+  <div class="bg-white rounded-2xl border border-warm-border/50 shadow-soft overflow-hidden mb-6">
+    <div class="h-28 bg-gradient-to-r from-blush via-warm-border/40 to-blush"></div>
+    <div class="px-6 pb-6">
+      <div class="flex items-end gap-5 -mt-14 mb-4">
+        <%
+          const profileInitial = (profileUser.firstName || profileUser.email || 'U').trim().charAt(0).toUpperCase();
+          const profilePhoto = profileUser.profilePic;
+        %>
+        <% if (profilePhoto) { %>
+          <img src="<%= profilePhoto.startsWith('http') ? profilePhoto : '/uploads/' + profilePhoto.split(/[\\/]/).pop() %>" alt="" class="profile-avatar-lg ring-4 ring-white"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="profile-avatar-lg-placeholder ring-4 ring-white" style="display:none;">
+            <%= profileInitial %>
+          </div>
+        <% } else { %>
+          <div class="profile-avatar-lg-placeholder ring-4 ring-white">
+            <%= profileInitial %>
+          </div>
+        <% } %>
+        <div class="flex-1 mb-1">
+          <h1 class="text-2xl font-serif font-bold text-charcoal">
+            <%= profileUser.firstName %> <%= profileUser.lastName %>
+            <% if (profileUser.age) { %><span class="text-text-muted font-sans font-normal text-lg">, <%= profileUser.age %></span><% } %>
+          </h1>
+          <p class="text-sm text-text-muted">
+            <%= [profileUser.profession, profileUser.location].filter(Boolean).join(' · ') || 'Raya member' %>
+          </p>
         </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div class="bg-blush/30 rounded-xl p-5 border border-warm-border/30">
-                <p class="text-[11px] font-sans font-medium text-text-muted uppercase tracking-[0.15em] mb-2">Age</p>
-                <p id="profile-age" class="text-charcoal font-medium">Not specified</p>
-            </div>
-            <div class="bg-blush/30 rounded-xl p-5 border border-warm-border/30">
-                <p class="text-[11px] font-sans font-medium text-text-muted uppercase tracking-[0.15em] mb-2">Gender</p>
-                <p id="profile-gender" class="text-charcoal font-medium">Not specified</p>
-            </div>
-            <div class="bg-blush/30 rounded-xl p-5 border border-warm-border/30">
-                <p class="text-[11px] font-sans font-medium text-text-muted uppercase tracking-[0.15em] mb-2">Location</p>
-                <p id="profile-location" class="text-charcoal font-medium">Not specified</p>
-            </div>
-            <div class="bg-blush/30 rounded-xl p-5 border border-warm-border/30">
-                <p class="text-[11px] font-sans font-medium text-text-muted uppercase tracking-[0.15em] mb-2">Email</p>
-                <p id="profile-email-card" class="text-charcoal font-medium">Not specified</p>
-            </div>
+        <button onclick="document.getElementById('editModal').style.display='flex'"
+          class="shrink-0 px-5 py-2 rounded-full border border-warm-border text-sm font-medium text-charcoal hover:border-gold hover:text-gold transition-colors duration-200">
+          Edit profile
+        </button>
+      </div>
+      <% if (profileUser.bio) { %>
+        <p class="text-sm text-text-muted leading-relaxed mb-4"><%= profileUser.bio %></p>
+      <% } %>
+      <% if (profileUser.interests && profileUser.interests.length > 0) { %>
+        <div class="flex flex-wrap gap-2">
+          <% profileUser.interests.forEach(i => { %>
+            <span class="px-3 py-1 rounded-full bg-blush text-xs font-medium text-charcoal/70 border border-warm-border/50"><%= i %></span>
+          <% }) %>
         </div>
-
-        <div id="profile-bio-section" class="mt-6 bg-blush/30 rounded-xl p-5 border border-warm-border/30 hidden">
-            <p class="text-[11px] font-sans font-medium text-text-muted uppercase tracking-[0.15em] mb-2">About Me</p>
-            <p id="profile-bio" class="text-charcoal/70 leading-relaxed font-light"></p>
-        </div>
-
-        <div class="mt-8 text-center">
-            <a href="/" class="inline-block bg-gold text-white px-8 py-3 rounded-full font-sans font-medium text-sm tracking-wide shadow-gold hover:bg-gold-light transition-all duration-300">
-                Back to Home
-            </a>
-        </div>
+      <% } %>
     </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    <!-- Left: Stats + Friend requests -->
+    <div class="space-y-5">
+
+      <!-- Stats -->
+      <div class="bg-white rounded-2xl border border-warm-border/50 p-5 shadow-soft">
+        <h2 class="font-serif font-bold text-charcoal mb-4">Overview</h2>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3 text-sm">
+            <svg class="w-4 h-4 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <span class="text-text-muted"><span class="font-semibold text-charcoal"><%= profileUser.friends.length %></span> connections</span>
+          </div>
+          <% if (profileUser.location) { %>
+          <div class="flex items-center gap-3 text-sm">
+            <svg class="w-4 h-4 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <span class="text-text-muted"><%= profileUser.location %></span>
+          </div>
+          <% } %>
+          <% if (profileUser.gender) { %>
+          <div class="flex items-center gap-3 text-sm">
+            <svg class="w-4 h-4 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            <span class="text-text-muted"><%= profileUser.gender %></span>
+          </div>
+          <% } %>
+          <div class="flex items-center gap-3 text-sm">
+            <svg class="w-4 h-4 text-gold shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            <span class="text-text-muted text-xs"><%= profileUser.email %></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pending friend requests -->
+      <% if (pendingRequests.length > 0) { %>
+      <div class="bg-white rounded-2xl border border-warm-border/50 p-5 shadow-soft">
+        <h2 class="font-serif font-bold text-charcoal mb-4">
+          Friend Requests
+          <span class="ml-1 text-xs font-sans font-semibold bg-gold text-white rounded-full px-2 py-0.5"><%= pendingRequests.length %></span>
+        </h2>
+        <div class="space-y-3">
+          <% pendingRequests.forEach(req => { %>
+          <div class="flex items-center gap-3" id="preq-<%= req.from._id %>">
+            <a href="/user/<%= req.from._id %>">
+              <% if (req.from.profilePic) { %>
+                <img src="<%= req.from.profilePic.startsWith('http') ? req.from.profilePic : '/uploads/' + req.from.profilePic.split(/[\\/]/).pop() %>" class="w-10 h-10 rounded-full object-cover" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div style="display:none;" class="w-10 h-10 rounded-full bg-blush flex items-center justify-center font-serif font-bold text-gold"><%= req.from.firstName.charAt(0) %></div>
+              <% } else { %>
+                <div class="w-10 h-10 rounded-full bg-blush flex items-center justify-center font-serif font-bold text-gold"><%= req.from.firstName.charAt(0) %></div>
+              <% } %>
+            </a>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-charcoal truncate"><%= req.from.firstName %> <%= req.from.lastName %></p>
+              <p class="text-xs text-text-muted truncate"><%= req.from.profession || req.from.location || '' %></p>
+            </div>
+            <div class="flex gap-1 shrink-0">
+              <button onclick="acceptReq('<%= req.from._id %>')" class="w-8 h-8 rounded-full bg-charcoal text-white flex items-center justify-center hover:bg-gold transition-colors" title="Accept">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+              </button>
+              <button onclick="rejectReq('<%= req.from._id %>')" class="w-8 h-8 rounded-full border border-warm-border text-text-muted flex items-center justify-center hover:border-red-300 hover:text-red-400 transition-colors" title="Decline">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+              </button>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+      <% } %>
+    </div>
+
+    <!-- Right: Friends list -->
+    <div class="lg:col-span-2">
+      <div class="bg-white rounded-2xl border border-warm-border/50 p-5 shadow-soft">
+        <div class="flex items-center justify-between mb-5">
+          <h2 class="font-serif font-bold text-charcoal">My Connections (<%= profileUser.friends.length %>)</h2>
+          <a href="/discover" class="text-xs text-gold font-medium hover:text-gold-dark transition-colors">+ Find more</a>
+        </div>
+        <% if (profileUser.friends.length === 0) { %>
+          <div class="text-center py-12 text-text-muted">
+            <svg class="w-10 h-10 mx-auto mb-3 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <p class="text-sm">No connections yet. <a href="/discover" class="text-gold hover:text-gold-dark">Discover people</a></p>
+          </div>
+        <% } else { %>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <% profileUser.friends.forEach(f => { %>
+            <a href="/user/<%= f._id %>" class="flex items-center gap-3 p-3 rounded-xl hover:bg-blush/40 transition-colors group" style="text-decoration:none;">
+              <div class="relative">
+                <% if (f.profilePic) { %>
+                  <img src="<%= f.profilePic.startsWith('http') ? f.profilePic : '/uploads/' + f.profilePic.split(/[\\/]/).pop() %>" class="w-11 h-11 rounded-full object-cover" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <div style="display:none;" class="w-11 h-11 rounded-full bg-blush flex items-center justify-center font-serif font-bold text-gold"><%= f.firstName.charAt(0) %></div>
+                <% } else { %>
+                  <div class="w-11 h-11 rounded-full bg-blush flex items-center justify-center font-serif font-bold text-gold"><%= f.firstName.charAt(0) %></div>
+                <% } %>
+                <% if (f.isOnline) { %><span class="online-dot"></span><% } %>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-charcoal group-hover:text-gold transition-colors truncate"><%= f.firstName %> <%= f.lastName %></p>
+                <p class="text-xs text-text-muted truncate"><%= f.profession || f.location || 'Raya member' %></p>
+              </div>
+
+            </a>
+            <% }) %>
+          </div>
+        <% } %>
+      </div>
+    </div>
+
+  </div>
 </main>
 
-<script>
-    (function() {
-        if (localStorage.getItem('loggedIn') !== 'true') {
-            window.location.href = '/login';
-            return;
-        }
-        var email = localStorage.getItem('userEmail');
-        if (!email) { window.location.href = '/login'; return; }
+<!-- Edit Profile Modal -->
+<div id="editModal" style="display:none" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+  <div class="bg-white rounded-2xl p-7 w-full max-w-lg shadow-soft-lg relative max-h-[90vh] overflow-y-auto">
+    <button onclick="document.getElementById('editModal').style.display='none'"
+      class="absolute top-4 right-4 w-8 h-8 rounded-full border border-warm-border flex items-center justify-center text-text-muted hover:text-charcoal transition-colors">
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <h2 class="font-serif font-bold text-xl text-charcoal mb-6">Edit Profile</h2>
+    <form action="/profile/edit" method="POST" enctype="multipart/form-data" class="space-y-4">
+      <div>
+        <label class="raya-label">Profile Picture</label>
+        <input type="file" name="profilePic" accept="image/jpeg,image/png,image/webp,image/gif" class="raya-input" style="padding-top:8px; padding-bottom:8px;">
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="raya-label">First Name</label><input type="text" name="firstName" value="<%= profileUser.firstName %>" class="raya-input"></div>
+        <div><label class="raya-label">Last Name</label><input type="text" name="lastName" value="<%= profileUser.lastName %>" class="raya-input"></div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="raya-label">Age</label><input type="number" name="age" value="<%= profileUser.age || '' %>" min="18" max="100" class="raya-input"></div>
+        <div>
+          <label class="raya-label">Gender</label>
+          <select name="gender" class="raya-input" style="cursor:pointer">
+            <option value="">Select</option>
+            <option value="Male" <%= profileUser.gender === 'Male' ? 'selected' : '' %>>Male</option>
+            <option value="Female" <%= profileUser.gender === 'Female' ? 'selected' : '' %>>Female</option>
+            <option value="Other" <%= profileUser.gender === 'Other' ? 'selected' : '' %>>Other</option>
+          </select>
+        </div>
+      </div>
+      <div><label class="raya-label">Location</label><input type="text" name="location" value="<%= profileUser.location || '' %>" placeholder="City, Country" class="raya-input"></div>
+      <div><label class="raya-label">Profession</label><input type="text" name="profession" value="<%= profileUser.profession || '' %>" placeholder="What do you do?" class="raya-input"></div>
+      <div><label class="raya-label">About you</label><textarea name="bio" rows="3" class="raya-input" style="resize:none;padding-top:8px"><%= profileUser.bio || '' %></textarea></div>
+      <div><label class="raya-label">Interests <span class="normal-case font-normal text-text-muted">(comma-separated)</span></label>
+        <input type="text" name="interests" value="<%= (profileUser.interests || []).join(', ') %>" placeholder="travel, music, cooking..." class="raya-input">
+      </div>
+      <button type="submit" class="btn-primary">Save changes</button>
+    </form>
+  </div>
+</div>
 
-        fetch('/api/user?email=' + encodeURIComponent(email))
-            .then(function(r) { return r.json(); })
-            .then(function(user) {
-                if (user.error) { window.location.href = '/login'; return; }
-                document.getElementById('profile-fullname').textContent = (user.firstName || '') + ' ' + (user.lastName || '');
-                document.getElementById('profile-email').textContent = user.email || '';
-                document.getElementById('profile-email-card').textContent = user.email || 'Not specified';
-                document.getElementById('profile-age').textContent = user.age || 'Not specified';
-                document.getElementById('profile-gender').textContent = user.gender || 'Not specified';
-                document.getElementById('profile-location').textContent = user.location || 'Not specified';
-                if (user.bio) {
-                    document.getElementById('profile-bio-section').classList.remove('hidden');
-                    document.getElementById('profile-bio').textContent = user.bio;
-                }
-            });
-    })();
-</script>
-
+<div id="toast"></div>
 <%- include('partials/footer') %>
 
+<script>
+async function acceptReq(fromId) {
+  const res = await fetch('/api/friends/accept', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ fromId }) });
+  if (res.ok) { document.getElementById('preq-' + fromId)?.remove(); showToast('Friend request accepted!'); }
+}
+async function rejectReq(fromId) {
+  const res = await fetch('/api/friends/reject', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ fromId }) });
+  if (res.ok) { document.getElementById('preq-' + fromId)?.remove(); showToast('Request declined.'); }
+}
+function showToast(msg) {
+  const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
 </body>
 </html>

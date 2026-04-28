@@ -1,192 +1,279 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('partials/header') %>
+  <%- include('partials/header') %>
 </head>
-<body class="bg-ivory font-sans text-text-main antialiased min-h-screen flex flex-col">
+<body class="bg-ivory min-h-screen flex flex-col">
 
-<main class="flex-1">
-    <!-- Hero Section -->
-    <section class="relative pt-24 pb-36 overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
-                <div class="max-w-2xl">
-                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold/30 text-gold text-xs font-sans font-medium tracking-wide mb-8">
-                        <span class="material-symbols-outlined text-[14px]">auto_awesome</span>
-                        INTELLIGENT MATCHMAKING
-                    </div>
-                    <h1 class="text-5xl lg:text-7xl font-serif font-bold text-charcoal leading-[1.1] mb-8 tracking-tight">
-                        Find a partner who <span class="text-gold italic">matches your soul</span>
-                    </h1>
-                    <p class="text-lg text-text-muted mb-12 leading-relaxed font-light">
-                        Modern matchmaking for the ambitious, creative, and mindful generation. Algorithm-driven connections based on values, not just biodata.
-                    </p>
-                    <div class="flex flex-wrap gap-4 mb-14">
-                        <a href="/discover" class="bg-gold text-white px-9 py-3.5 rounded-full text-sm font-sans font-medium tracking-wide shadow-gold hover:shadow-lg transition-all duration-300">Begin Your Journey</a>
-                        <a href="#" class="border border-warm-border text-charcoal px-9 py-3.5 rounded-full text-sm font-sans font-medium tracking-wide hover:border-gold hover:text-gold transition-all duration-300">Browse Stories</a>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div class="flex -space-x-2.5">
-                            <img src="https://picsum.photos/seed/1/40/40" class="w-9 h-9 rounded-full border-2 border-ivory ring-2 ring-gold/20" alt="User">
-                            <img src="https://picsum.photos/seed/2/40/40" class="w-9 h-9 rounded-full border-2 border-ivory ring-2 ring-gold/20" alt="User">
-                            <img src="https://picsum.photos/seed/3/40/40" class="w-9 h-9 rounded-full border-2 border-ivory ring-2 ring-gold/20" alt="User">
-                            <div class="w-9 h-9 rounded-full bg-blush flex items-center justify-center text-[10px] font-medium text-gold border-2 border-ivory">+2k</div>
-                        </div>
-                        <p class="text-xs text-text-muted font-medium tracking-wide">Joined this week</p>
-                    </div>
-                </div>
-                <div class="relative">
-                    <div class="relative rounded-[1.5rem] overflow-hidden shadow-soft-lg">
-                        <img src="https://picsum.photos/seed/couple/800/600" class="w-full aspect-[4/3] object-cover" alt="Happy Couple">
-                        <div class="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-md p-6 rounded-xl shadow-soft border border-warm-border/30">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="text-[10px] font-sans font-medium text-text-muted uppercase tracking-[0.15em]">Match Score</span>
-                                <span class="material-symbols-outlined text-gold text-lg">auto_awesome</span>
-                            </div>
-                            <div class="text-2xl font-serif font-bold text-charcoal">98% Compatible</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<% if (currentUser) { %>
+<!-- ════════════════════════════════════════════════
+     DASHBOARD (logged in)
+════════════════════════════════════════════════ -->
+<main class="flex-1 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
 
-    <!-- Featured Matches -->
-    <section class="py-28 bg-blush/40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-end justify-between mb-14">
-                <div>
-                    <h2 class="text-4xl font-serif font-bold text-charcoal mb-3 tracking-tight">Featured Matches</h2>
-                    <p class="text-text-muted font-light">Curated profiles based on your values and vision.</p>
-                </div>
-                <a href="/discover" class="text-gold font-sans font-medium text-sm flex items-center gap-2 hover:gap-3 transition-all duration-300 tracking-wide">
-                    View All <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-                </a>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Profile Card 1 -->
-                <div class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-soft-lg transition-all duration-500 border border-warm-border/30">
-                    <div class="relative aspect-[3/4]">
-                        <img src="https://picsum.photos/seed/anya/400/533" class="w-full h-full object-cover" alt="Anya">
-                        <button class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/50 transition-colors duration-300">
-                            <span class="material-symbols-outlined text-[20px]">favorite</span>
-                        </button>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-1">
-                            <h3 class="text-lg font-serif font-bold text-charcoal">Anya, 26</h3>
-                            <span class="text-[10px] font-sans font-medium text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full">Online</span>
-                        </div>
-                        <p class="text-xs text-text-muted mb-4 font-light">UX Designer · Mumbai</p>
-                        <p class="text-sm text-charcoal/70 italic leading-relaxed line-clamp-2 font-serif">"Looking for a travel buddy to explore hidden gems."</p>
-                    </div>
-                </div>
-                <!-- Profile Card 2 -->
-                <div class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-soft-lg transition-all duration-500 border border-warm-border/30">
-                    <div class="relative aspect-[3/4]">
-                        <img src="https://picsum.photos/seed/rohan/400/533" class="w-full h-full object-cover" alt="Rohan">
-                        <button class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/50 transition-colors duration-300">
-                            <span class="material-symbols-outlined text-[20px]">favorite</span>
-                        </button>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-1">
-                            <h3 class="text-lg font-serif font-bold text-charcoal">Rohan, 29</h3>
-                        </div>
-                        <p class="text-xs text-text-muted mb-4 font-light">Founder · Bangalore</p>
-                        <p class="text-sm text-charcoal/70 italic leading-relaxed line-clamp-2 font-serif">"Coffee, Code & weekend cricket enthusiast."</p>
-                    </div>
-                </div>
-                <!-- Profile Card 3 -->
-                <div class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-soft-lg transition-all duration-500 border border-warm-border/30">
-                    <div class="relative aspect-[3/4]">
-                        <img src="https://picsum.photos/seed/meera/400/533" class="w-full h-full object-cover" alt="Meera">
-                        <button class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/50 transition-colors duration-300">
-                            <span class="material-symbols-outlined text-[20px]">favorite</span>
-                        </button>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-1">
-                            <h3 class="text-lg font-serif font-bold text-charcoal">Meera, 27</h3>
-                        </div>
-                        <p class="text-xs text-text-muted mb-4 font-light">Architect · Delhi</p>
-                        <p class="text-sm text-charcoal/70 italic leading-relaxed line-clamp-2 font-serif">"Art gallery hopper & indie music lover."</p>
-                    </div>
-                </div>
-                <!-- Profile Card 4 -->
-                <div class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-soft-lg transition-all duration-500 border border-warm-border/30">
-                    <div class="relative aspect-[3/4]">
-                        <img src="https://picsum.photos/seed/kabir/400/533" class="w-full h-full object-cover" alt="Kabir">
-                        <button class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/50 transition-colors duration-300">
-                            <span class="material-symbols-outlined text-[20px]">favorite</span>
-                        </button>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center justify-between mb-1">
-                            <h3 class="text-lg font-serif font-bold text-charcoal">Kabir, 30</h3>
-                        </div>
-                        <p class="text-xs text-text-muted mb-4 font-light">Chef · Goa</p>
-                        <p class="text-sm text-charcoal/70 italic leading-relaxed line-clamp-2 font-serif">"Sustainable living advocate & foodie."</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- Top bar -->
+  <div class="mb-8 flex items-center justify-between">
+    <div>
+      <h1 class="text-3xl font-serif font-bold text-charcoal"><%= typeof greeting !== 'undefined' && greeting ? greeting : 'Good evening' %>, <%= currentUser.firstName %></h1>
+      <p class="text-text-muted text-sm mt-1">Here's what's happening today.</p>
+    </div>
+    <a href="/discover" class="btn-primary" style="width:auto;padding:10px 22px;text-decoration:none;">
+      Discover people
+    </a>
+  </div>
 
-    <!-- Journey Section -->
-    <section class="py-32">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-4xl lg:text-5xl font-serif font-bold text-charcoal mb-5 tracking-tight">Your journey to companionship</h2>
-            <p class="text-text-muted max-w-2xl mx-auto mb-6 font-light leading-relaxed">We've simplified the process of finding your soulmate into three meaningful steps focused on quality over quantity.</p>
-            <!-- Ornamental Divider -->
-            <div class="flex items-center justify-center gap-4 mb-20">
-                <div class="h-px w-12 bg-warm-border"></div>
-                <span class="material-symbols-outlined text-gold/50 text-sm">diamond</span>
-                <div class="h-px w-12 bg-warm-border"></div>
-            </div>
-            <div class="grid md:grid-cols-3 gap-16">
-                <div class="flex flex-col items-center">
-                    <div class="w-20 h-20 rounded-full border border-gold/30 text-gold flex items-center justify-center mb-8">
-                        <span class="material-symbols-outlined text-3xl">psychology</span>
-                    </div>
-                    <h3 class="text-xl font-serif font-bold text-charcoal mb-4">Mindset Analysis</h3>
-                    <p class="text-sm text-text-muted font-light leading-relaxed">Complete our in-depth personality assessment to help us understand your core values and vision.</p>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="w-20 h-20 rounded-full border border-gold/30 text-gold flex items-center justify-center mb-8">
-                        <span class="material-symbols-outlined text-3xl">groups</span>
-                    </div>
-                    <h3 class="text-xl font-serif font-bold text-charcoal mb-4">Curated Connections</h3>
-                    <p class="text-sm text-text-muted font-light leading-relaxed">Receive 5 highly compatible matches every week, handpicked by our AI and verified by experts.</p>
-                </div>
-                <div class="flex flex-col items-center">
-                    <div class="w-20 h-20 rounded-full border border-gold/30 text-gold flex items-center justify-center mb-8">
-                        <span class="material-symbols-outlined text-3xl">chat</span>
-                    </div>
-                    <h3 class="text-xl font-serif font-bold text-charcoal mb-4">Meaningful Conversations</h3>
-                    <p class="text-sm text-text-muted font-light leading-relaxed">Use our guided icebreakers to start conversations that matter and move beyond small talk.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-    <!-- CTA Section -->
-    <section class="py-20 px-4">
-        <div class="max-w-5xl mx-auto bg-charcoal rounded-[2rem] p-12 lg:p-20 text-center text-white relative overflow-hidden">
-            <div class="relative z-10">
-                <h2 class="text-4xl lg:text-6xl font-serif font-bold mb-8 tracking-tight">Ready to find your equal?</h2>
-                <p class="text-lg text-white/60 mb-12 max-w-2xl mx-auto font-light leading-relaxed">Join thousands of verified professionals who are writing their own love stories on Raya.</p>
-                <a href="/signup" class="inline-block bg-gold text-white px-10 py-4 rounded-full font-sans font-medium text-sm tracking-wide hover:bg-gold-light transition-colors duration-300 shadow-gold">Get Started Free</a>
-                <p class="mt-8 text-xs text-white/40 tracking-wide">No credit card required for basic profile setup.</p>
+    <!-- Left: Friend requests -->
+    <div class="lg:col-span-2 space-y-6">
+
+      <% if (pendingRequests.length > 0) { %>
+      <section>
+        <h2 class="text-lg font-serif font-bold text-charcoal mb-4">
+          Friend Requests
+          <span class="ml-2 text-xs font-sans font-semibold bg-gold text-white rounded-full px-2 py-0.5"><%= pendingRequests.length %></span>
+        </h2>
+        <div class="space-y-3">
+          <% pendingRequests.forEach(req => { %>
+          <div class="bg-white rounded-2xl p-4 border border-warm-border/50 flex items-center gap-4" id="req-<%= req.from._id %>">
+            <a href="/user/<%= req.from._id %>">
+              <% if (req.from.profilePic) { %>
+                <img src="<%= req.from.profilePic.startsWith('http') ? req.from.profilePic : '/uploads/' + req.from.profilePic.split(/[\\/]/).pop() %>" class="w-12 h-12 rounded-full object-cover" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div style="display:none;" class="w-12 h-12 rounded-full bg-blush flex items-center justify-center font-serif font-bold text-gold text-lg"><%= req.from.firstName.charAt(0) %></div>
+              <% } else { %>
+                <div class="w-12 h-12 rounded-full bg-blush flex items-center justify-center font-serif font-bold text-gold text-lg"><%= req.from.firstName.charAt(0) %></div>
+              <% } %>
+            </a>
+            <div class="flex-1 min-w-0">
+              <p class="font-medium text-charcoal text-sm"><a href="/user/<%= req.from._id %>" class="hover:text-gold transition-colors"><%= req.from.firstName %> <%= req.from.lastName %></a></p>
+              <p class="text-xs text-text-muted mt-0.5"><%= req.from.profession || '' %> <% if (req.from.location) { %>&middot; <%= req.from.location %><% } %></p>
             </div>
-            <!-- Subtle Background Decoration -->
-            <div class="absolute -top-24 -right-24 w-64 h-64 bg-gold/5 rounded-full blur-3xl"></div>
-            <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-gold/5 rounded-full blur-3xl"></div>
+            <div class="flex gap-2 shrink-0">
+              <button onclick="acceptRequest('<%= req.from._id %>')"
+                class="px-4 py-1.5 rounded-full bg-charcoal text-white text-xs font-medium hover:bg-gold transition-colors duration-200">
+                Accept
+              </button>
+              <button onclick="rejectRequest('<%= req.from._id %>')"
+                class="px-4 py-1.5 rounded-full border border-warm-border text-text-muted text-xs font-medium hover:border-red-300 hover:text-red-500 transition-colors duration-200">
+                Decline
+              </button>
+            </div>
+          </div>
+          <% }) %>
         </div>
-    </section>
+      </section>
+      <% } %>
+
+      <!-- Friends list -->
+      <section>
+        <h2 class="text-lg font-serif font-bold text-charcoal mb-4">
+          My Connections
+          <span class="text-sm font-sans font-normal text-text-muted ml-2"><%= friends.length %> friends</span>
+        </h2>
+        <% if (friends.length === 0) { %>
+          <div class="bg-white rounded-2xl border border-warm-border/50 p-10 text-center">
+            <svg class="w-12 h-12 mx-auto mb-4 text-warm-border" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <p class="text-text-muted text-sm mb-4">You haven't connected with anyone yet.</p>
+            <a href="/discover" class="text-gold font-medium text-sm hover:text-gold-dark transition-colors">Start discovering people →</a>
+          </div>
+        <% } else { %>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <% friends.forEach(friend => { %>
+            <a href="/user/<%= friend._id %>" class="bg-white rounded-xl border border-warm-border/50 p-4 flex items-center gap-3 hover:border-gold/40 transition-colors duration-200 group" style="text-decoration:none;">
+              <div class="relative">
+                <% if (friend.profilePic) { %>
+                  <img src="<%= friend.profilePic.startsWith('http') ? friend.profilePic : '/uploads/' + friend.profilePic.split(/[\\/]/).pop() %>" class="w-11 h-11 rounded-full object-cover" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <div style="display:none;" class="w-11 h-11 rounded-full bg-blush flex items-center justify-center font-serif font-bold text-gold"><%= friend.firstName.charAt(0) %></div>
+                <% } else { %>
+                  <div class="w-11 h-11 rounded-full bg-blush flex items-center justify-center font-serif font-bold text-gold"><%= friend.firstName.charAt(0) %></div>
+                <% } %>
+                <% if (friend.isOnline) { %>
+                  <span class="online-dot"></span>
+                <% } %>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="font-medium text-sm text-charcoal group-hover:text-gold transition-colors truncate"><%= friend.firstName %> <%= friend.lastName %></p>
+                <p class="text-xs text-text-muted truncate mt-0.5"><%= friend.profession || friend.location || 'Raya member' %></p>
+              </div>
+
+            </a>
+            <% }) %>
+          </div>
+        <% } %>
+      </section>
+    </div>
+
+    <!-- Right: Quick links -->
+    <div class="space-y-4">
+      <div class="bg-white rounded-2xl border border-warm-border/50 p-6">
+        <h3 class="font-serif font-bold text-charcoal mb-4">Quick Actions</h3>
+        <div class="space-y-3">
+          <a href="/discover" class="flex items-center gap-3 text-sm text-text-muted hover:text-charcoal transition-colors group">
+            <div class="w-9 h-9 rounded-xl bg-blush flex items-center justify-center group-hover:bg-gold/10 transition-colors">
+              <svg class="w-4 h-4 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
+            </div>
+            Discover people
+          </a>
+
+          <a href="/profile" class="flex items-center gap-3 text-sm text-text-muted hover:text-charcoal transition-colors group">
+            <div class="w-9 h-9 rounded-xl bg-blush flex items-center justify-center group-hover:bg-gold/10 transition-colors">
+              <svg class="w-4 h-4 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            </div>
+            Edit my profile
+          </a>
+        </div>
+      </div>
+
+      <!-- Profile completeness -->
+      <div class="bg-charcoal rounded-2xl p-6 text-white">
+        <p class="text-xs uppercase tracking-widest text-white/50 mb-2">Profile</p>
+        <h3 class="font-serif font-bold text-lg mb-1">Make it shine</h3>
+        <p class="text-xs text-white/60 mb-4">A complete profile gets 3× more connections.</p>
+        <a href="/profile" class="inline-block text-xs font-medium text-gold hover:text-gold-light transition-colors">Update profile →</a>
+      </div>
+    </div>
+
+  </div>
 </main>
 
+<script>
+async function acceptRequest(fromId) {
+  const r = await fetch('/api/friends/accept', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ fromId }),
+  });
+  if (r.ok) {
+    document.getElementById('req-' + fromId)?.remove();
+    showToast('Friend request accepted!');
+  }
+}
+async function rejectRequest(fromId) {
+  const r = await fetch('/api/friends/reject', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ fromId }),
+  });
+  if (r.ok) {
+    document.getElementById('req-' + fromId)?.remove();
+    showToast('Request declined.');
+  }
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+
+<% } else { %>
+<!-- ════════════════════════════════════════════════
+     LANDING PAGE (logged out)
+════════════════════════════════════════════════ -->
+<main class="flex-1">
+
+  <!-- Hero -->
+  <section class="relative pt-28 pb-24 overflow-hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold mb-6">Intelligent matchmaking</p>
+          <h1 class="text-5xl lg:text-6xl font-serif font-bold text-charcoal leading-[1.08] mb-6 tracking-tight">
+            Find a partner who <em class="text-gold not-italic">matches your soul</em>
+          </h1>
+          <p class="text-base text-text-muted leading-relaxed mb-10 max-w-md">
+            Modern matchmaking for the ambitious and mindful. Real connections, verified profiles, no noise.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="/signup" class="btn-primary" style="width:auto;padding:12px 28px;text-decoration:none;">Create free account</a>
+            <a href="/discover" class="px-7 py-3 rounded-full border border-warm-border text-charcoal text-sm font-medium hover:border-gold hover:text-gold transition-all duration-200" style="text-decoration:none;">Browse profiles</a>
+          </div>
+        </div>
+
+        <!-- Right visual -->
+        <div class="relative hidden lg:block">
+          <div class="aspect-[4/5] rounded-3xl overflow-hidden bg-blush">
+            <svg viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+              <rect width="400" height="500" fill="#F5EBE0"/>
+              <!-- Abstract couple silhouette -->
+              <circle cx="180" cy="170" r="55" fill="#E5D8C9"/>
+              <circle cx="230" cy="185" r="50" fill="#DDD0C0"/>
+              <ellipse cx="200" cy="380" rx="100" ry="80" fill="#E5D8C9"/>
+              <!-- Heart -->
+              <path d="M200 310 C200 310 160 285 160 260 C160 245 172 235 185 240 C192 243 200 252 200 252 C200 252 208 243 215 240 C228 235 240 245 240 260 C240 285 200 310 200 310Z" fill="#B8976A" opacity="0.6"/>
+              <!-- Decorative rings -->
+              <circle cx="330" cy="80" r="30" stroke="#B8976A" stroke-width="1" fill="none" opacity="0.3"/>
+              <circle cx="70" cy="400" r="20" stroke="#B8976A" stroke-width="1" fill="none" opacity="0.3"/>
+            </svg>
+          </div>
+          <!-- Floating card -->
+          <div class="absolute bottom-8 -left-8 bg-white rounded-2xl p-5 shadow-soft-lg border border-warm-border/40 max-w-[200px]">
+            <div class="flex items-center gap-2 mb-2">
+              <svg class="w-3.5 h-3.5 text-gold" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <span class="text-[11px] font-semibold uppercase tracking-widest text-text-muted">Match Score</span>
+            </div>
+            <p class="text-2xl font-serif font-bold text-charcoal">98%</p>
+            <p class="text-xs text-text-muted mt-1">Compatible</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="py-20 bg-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-4xl font-serif font-bold text-charcoal mb-3">Your journey starts here</h2>
+      <p class="text-text-muted mb-14 max-w-xl mx-auto text-sm leading-relaxed">Three simple steps to a connection that actually matters.</p>
+      <div class="grid md:grid-cols-3 gap-10">
+        <div class="flex flex-col items-center">
+          <div class="w-14 h-14 rounded-2xl bg-blush flex items-center justify-center mb-5">
+            <svg class="w-6 h-6 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-serif font-bold text-charcoal mb-2">Build your profile</h3>
+          <p class="text-sm text-text-muted leading-relaxed">Share who you are — your values, passions, and what you're looking for.</p>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="w-14 h-14 rounded-2xl bg-blush flex items-center justify-center mb-5">
+            <svg class="w-6 h-6 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-serif font-bold text-charcoal mb-2">Discover & connect</h3>
+          <p class="text-sm text-text-muted leading-relaxed">Browse real profiles and send friend requests to people you resonate with.</p>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="w-14 h-14 rounded-2xl bg-blush flex items-center justify-center mb-5">
+            <svg class="w-6 h-6 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-serif font-bold text-charcoal mb-2">Chat in real time</h3>
+          <p class="text-sm text-text-muted leading-relaxed">Once connected, chat instantly. No walls, no paywalls.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 px-4">
+    <div class="max-w-3xl mx-auto bg-charcoal rounded-3xl p-14 text-center text-white relative overflow-hidden">
+      <h2 class="text-4xl font-serif font-bold mb-5">Ready to find your equal?</h2>
+      <p class="text-white/60 mb-9 text-sm leading-relaxed max-w-xl mx-auto">Join thousands of genuine people who chose quality over quantity.</p>
+      <a href="/signup" class="inline-block bg-gold text-white px-9 py-3.5 rounded-full text-sm font-semibold hover:bg-gold-light transition-colors duration-200" style="text-decoration:none;">Get started — it's free</a>
+    </div>
+  </section>
+
+</main>
+<% } %>
+
 <%- include('partials/footer') %>
+<div id="toast"></div>
 
 </body>
 </html>
