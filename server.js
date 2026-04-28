@@ -1,7 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
 
-import mongoose from 'mongoose';
 import User from './models/User.js';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
@@ -9,6 +8,7 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+import { connectDB } from './config/db.js';
 import { uploadsDir } from './config/upload.js';
 import authRoutes from './routes/auth.js';
 import notFoundRoutes from './routes/notFound.js';
@@ -21,11 +21,8 @@ const getGoogleProfilePhoto = (profile) => profile?.photos?.[0]?.value || profil
 
 const app = express();
 
-
-// ── MongoDB ────────────────────────────────────────────────────────────────
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('✅ MongoDB connected'))
-  .catch(err => { console.error('❌ MongoDB error:', err); process.exit(1); });
+// ── MongoDB Connection ────────────────────────────────────────────────────
+await connectDB();
 
 // ── Passport Google OAuth ──────────────────────────────────────────────────
 passport.use(new GoogleStrategy({
@@ -79,7 +76,9 @@ app.use('/', userRoutes);
 app.use('/', notFoundRoutes);
 
 // ── Start ──────────────────────────────────────────────────────────────────
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+(async () => {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on http://localhost:${PORT}`);
+  });
+})();
