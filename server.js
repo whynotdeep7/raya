@@ -1,5 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
 
 import User from './models/User.js';
 import passport from 'passport';
@@ -14,12 +16,19 @@ import authRoutes from './routes/auth.js';
 import notFoundRoutes from './routes/notFound.js';
 import pageRoutes from './routes/pages.js';
 import userRoutes from './routes/users.js';
+import chatApiRoutes from './routes/api/chat.js';
+import { initializeChatSocket } from './sockets/chatSocket.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const getGoogleProfilePhoto = (profile) => profile?.photos?.[0]?.value || profile?._json?.picture || '';
 
 const app = express();
+const server = createServer(app);
+const io = new Server(server);
+
+// Initialize Chat Socket
+initializeChatSocket(io);
 
 // ── MongoDB Connection ────────────────────────────────────────────────────
 await connectDB();
@@ -73,12 +82,13 @@ app.use(passport.initialize());
 app.use('/', authRoutes);
 app.use('/', pageRoutes);
 app.use('/', userRoutes);
+app.use('/api/chat', chatApiRoutes);
 app.use('/', notFoundRoutes);
 
 // ── Start ──────────────────────────────────────────────────────────────────
 (async () => {
   const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () => {
+  server.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
   });
 })();

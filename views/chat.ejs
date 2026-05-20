@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/chat.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body class="chat-body" data-user-id="<%= currentUser._id %>" data-user-name="<%= currentUser.firstName %>">
+
+  <div class="chat-app">
+    <!-- SIDEBAR -->
+    <aside class="chat-sidebar">
+      <div class="sidebar-header">
+        <div class="my-profile">
+          <a href="/"><i class="fa-solid fa-arrow-left"></i></a>
+          <img src="<%= currentUser.profilePic.startsWith('http') ? currentUser.profilePic : '/uploads/' + (currentUser.profilePic || 'default.png') %>" alt="My Profile">
+          <span class="my-name">Chats</span>
+        </div>
+      </div>
+      
+      <div class="chat-list" id="chatList">
+        <% if (sidebarItems && sidebarItems.length > 0) { %>
+          <% sidebarItems.forEach(item => { 
+               const friend = item.friend;
+          %>
+            <div class="chat-list-item" data-chat-id="<%= item.chatId || '' %>" data-other-id="<%= friend._id %>" data-other-name="<%= friend.firstName %>">
+              <img src="<%= friend.profilePic.startsWith('http') ? friend.profilePic : '/uploads/' + (friend.profilePic || 'default.png') %>" alt="<%= friend.firstName %>">
+              <div class="chat-info">
+                <div class="chat-info-header">
+                  <h4><%= friend.firstName %> <%= friend.lastName %></h4>
+                  <div class="chat-meta-right">
+                    <% if (item.lastMessage) { %>
+                      <span class="chat-time"><%= new Date(item.lastMessage.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) %></span>
+                    <% } %>
+                    <span class="unread-badge <%= item.unreadCount > 0 ? '' : 'hidden' %>" id="unread-<%= item.chatId || 'none' %>"><%= item.unreadCount %></span>
+                  </div>
+                </div>
+                <p class="last-message">
+                  <% if (item.lastMessage) { %>
+                    <%= item.lastMessage.text %>
+                  <% } else { %>
+                    <i>Start a conversation</i>
+                  <% } %>
+                </p>
+              </div>
+            </div>
+          <% }) %>
+        <% } else { %>
+          <div class="no-chats">
+            <p>No active chats.</p>
+            <a href="/discover" class="btn btn-primary btn-sm">Find people</a>
+          </div>
+        <% } %>
+      </div>
+    </aside>
+
+    <!-- MAIN CHAT AREA -->
+    <main class="chat-main hidden" id="chatMain">
+      <div class="chat-header">
+        <img src="" alt="User" id="activeChatImg">
+        <div class="active-chat-info">
+          <h3 id="activeChatName">Name</h3>
+          <span class="typing-indicator hidden" id="typingIndicator">typing...</span>
+        </div>
+      </div>
+
+      <div class="chat-messages" id="chatMessages">
+        <!-- Messages will be injected here -->
+      </div>
+
+      <div class="chat-input-area">
+        <form id="chatForm">
+          <input type="text" id="messageInput" placeholder="Type a message..." autocomplete="off" required>
+          <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+        </form>
+      </div>
+    </main>
+    
+    <main class="chat-empty" id="chatEmpty">
+      <div class="empty-state">
+        <i class="fa-regular fa-comments"></i>
+        <h2>Raya Messages</h2>
+        <p>Select a chat to start messaging</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/chat.js"></script>
+</body>
+</html>

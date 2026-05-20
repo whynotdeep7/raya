@@ -10,6 +10,7 @@ import {
   submitContact,
   submitOnboarding,
   submitProfileEdit,
+  renderMessages,
 } from '../controllers/pageController.js';
 import { upload } from '../config/upload.js';
 
@@ -29,5 +30,7 @@ router.get('/user/:id', requireAuth, renderUserProfile);
 
 router.get('/contact', renderContact);
 router.post('/contact', submitContact);
+
+router.get('/messages', requireAuth, renderMessages);
 
 export default router;

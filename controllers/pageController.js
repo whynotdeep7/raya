@@ -1,5 +1,7 @@
 import User from '../models/User.js';
 import ContactMessage from '../models/ContactMessage.js';
+import Chat from '../models/Chat.js';
+import Message from '../models/Message.js';
 import { getCurrentUser } from '../middleware/auth.js';
 
 const parseInterests = (value = '') =>
@@ -201,5 +203,57 @@ export const submitContact = async (req, res) => {
       title: 'Contact Us — Raya',
       success: false,
     }));
+  }
+};
+
+export const renderMessages = async (req, res) => {
+  try {
+    const me = await User.findById(req.user._id).populate('friends', 'firstName lastName profilePic isOnline');
+    const chats = await Chat.find({ participants: req.user._id })
+      .populate('participants', 'firstName lastName profilePic isOnline')
+      .populate('lastMessage')
+      .sort({ updatedAt: -1 });
+
+    const sidebarItems = [];
+    const chatMap = new Map();
+    
+    chats.forEach(c => {
+       const other = c.participants.find(p => p._id.toString() !== req.user._id.toString());
+       if (other) chatMap.set(other._id.toString(), c);
+    });
+
+    // Get unread counts
+    const chatIds = chats.map(c => c._id);
+    const unreadCountsData = await Message.aggregate([
+      { $match: { chatId: { $in: chatIds }, sender: { $ne: req.user._id }, status: { $ne: 'read' } } },
+      { $group: { _id: '$chatId', count: { $sum: 1 } } }
+    ]);
+    const unreadMap = new Map(unreadCountsData.map(u => [u._id.toString(), u.count]));
+
+    me.friends.forEach(f => {
+       const chat = chatMap.get(f._id.toString());
+       sidebarItems.push({
+         friend: f,
+         chatId: chat ? chat._id.toString() : null,
+         lastMessage: chat ? chat.lastMessage : null,
+         updatedAt: chat ? chat.updatedAt : null,
+         unreadCount: chat ? (unreadMap.get(chat._id.toString()) || 0) : 0
+       });
+    });
+
+    sidebarItems.sort((a, b) => {
+       if (a.updatedAt && b.updatedAt) return b.updatedAt - a.updatedAt;
+       if (a.updatedAt) return -1;
+       if (b.updatedAt) return 1;
+       return a.friend.firstName.localeCompare(b.friend.firstName);
+    });
+
+    res.render('chat', await withViewer(req, {
+      title: 'Messages — Raya',
+      sidebarItems,
+    }));
+  } catch (err) {
+    console.error(err);
+    res.redirect('/');
   }
 };
